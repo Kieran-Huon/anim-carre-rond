@@ -73,7 +73,7 @@ export default class SceneGravityCubes extends Scene3D {
     }
 
     /** Ajouter un cube à la scène dynamiquement */
-    addCube(x, y, color = 'yellow') {
+    addCube(x, y, color = 'green') {
         // Créer un nouveau cube
         const cube = new GravityCube(50, color); // Taille fixe de 50 pour le cube
         cube.setPosition(x, y);
@@ -88,6 +88,7 @@ export default class SceneGravityCubes extends Scene3D {
         Composite.add(this.engine.world, cube.body);
 
         console.log(`Cube added at (${x}, ${y}) with color ${color}`);
+        return cube;
     }
 
     /** Supprimer un cube de la scène */

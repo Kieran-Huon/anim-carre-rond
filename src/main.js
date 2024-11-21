@@ -25,7 +25,7 @@ if (!!globalContext.debug.ui) {
 const time = globalContext.time;
 
 const update = () => {
-    /** exemple css */
+    /** Exemple CSS */
     const scale_ = 1 + (Math.cos(5 * time.elapsed / 1000) / 2 + 0.5) / 20;
     btn.style.transform = `scale(${scale_}, ${1})`;
 
@@ -34,7 +34,11 @@ const update = () => {
     outScene1_up.forEach(bubble => {
         scene1.removeBubble(bubble);
         const newCube = scene2.addCube(bubble.x - scene2.width / 2, scene2.height / 2, "yellow");
-        newCube.body.velocity.y = Math.abs(bubble.vy) / 100; // Transmission de vitesse
+        if (newCube && newCube.body) { // Vérification
+            newCube.body.velocity.y = Math.abs(bubble.vy) / 100; // Transmission de vitesse
+        } else {
+            console.error("Failed to create a valid cube from bubble", bubble);
+        }
     });
 
     /** Scene 2 -> Scene 3 (cubes qui tombent) */
@@ -42,7 +46,11 @@ const update = () => {
     outScene2_down.forEach(cube => {
         scene2.removeCube(cube);
         const newBubble = scene3.addBubble(cube.position.x + scene3.width / 2, 0);
-        newBubble.vy = Math.abs(newBubble.vy);
+        if (newBubble) { // Vérification
+            newBubble.vy = Math.abs(newBubble.vy);
+        } else {
+            console.error("Failed to create a valid bubble from cube", cube);
+        }
     });
 
     /** Scene 3 -> Scene 1 (bulles qui tombent) */
@@ -50,7 +58,11 @@ const update = () => {
     outScene3_down.forEach(bubble => {
         scene3.removeBubble(bubble);
         const newBubble = scene1.addBubble(bubble.x, 0);
-        newBubble.vy = -Math.abs(newBubble.vy);
+        if (newBubble) { // Vérification
+            newBubble.vy = -Math.abs(newBubble.vy);
+        } else {
+            console.error("Failed to create a valid bubble from bubble", bubble);
+        }
     });
 
     /** Scene 3 -> Scene 2 (bulles qui montent) */
@@ -58,7 +70,11 @@ const update = () => {
     outScene3_up.forEach(bubble => {
         scene3.removeBubble(bubble);
         const newCube = scene2.addCube(bubble.x - scene2.width / 2, scene2.height / 2, "blue");
-        newCube.body.velocity.y = Math.abs(bubble.vy) / 100;
+        if (newCube && newCube.body) { // Vérification
+            newCube.body.velocity.y = Math.abs(bubble.vy) / 100;
+        } else {
+            console.error("Failed to create a valid cube from bubble", bubble);
+        }
     });
 
     /** Scene 2 -> Scene 1 (cubes qui montent) */
@@ -66,7 +82,11 @@ const update = () => {
     outScene2_up.forEach(cube => {
         scene2.removeCube(cube);
         const newBubble = scene1.addBubble(cube.position.x + scene1.width / 2, scene1.height);
-        newBubble.vy = -Math.abs(newBubble.vy);
+        if (newBubble) { // Vérification
+            newBubble.vy = -Math.abs(newBubble.vy);
+        } else {
+            console.error("Failed to create a valid bubble from cube", cube);
+        }
     });
 
     /** Scene 1 -> Scene 3 (bulles qui tombent) */
@@ -74,7 +94,11 @@ const update = () => {
     outScene1_down.forEach(bubble => {
         scene1.removeBubble(bubble);
         const newBubble = scene3.addBubble(bubble.x, 0);
-        newBubble.vy = Math.abs(newBubble.vy);
+        if (newBubble) { // Vérification
+            newBubble.vy = Math.abs(newBubble.vy);
+        } else {
+            console.error("Failed to create a valid bubble from bubble", bubble);
+        }
     });
 };
 
