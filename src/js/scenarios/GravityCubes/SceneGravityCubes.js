@@ -72,6 +72,25 @@ export default class SceneGravityCubes extends Scene3D {
         this.resize();
     }
 
+    /** Ajouter un cube à la scène dynamiquement */
+    addCube(x, y, color = 'yellow') {
+        // Créer un nouveau cube
+        const cube = new GravityCube(50, color); // Taille fixe de 50 pour le cube
+        cube.setPosition(x, y);
+
+        // Ajouter le cube à la scène Three.js
+        this.add(cube);
+
+        // Ajouter le cube à la liste des cubes
+        this.cubes.push(cube);
+
+        // Ajouter le cube au moteur physique Matter.js
+        Composite.add(this.engine.world, cube.body);
+
+        console.log(`Cube added at (${x}, ${y}) with color ${color}`);
+    }
+
+    /** Supprimer un cube de la scène */
     removeCube(cube) {
         /** dispose from memory */
         cube.geometry.dispose();
@@ -137,4 +156,3 @@ export default class SceneGravityCubes extends Scene3D {
         this.engine.gravity.y = gy_;
     }
 }
-//test22
