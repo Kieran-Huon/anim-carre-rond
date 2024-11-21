@@ -194,7 +194,7 @@ export default class SceneGravityCubes extends Scene3D {
             this.wallBottom.setSize(this.width - THICKNESS, THICKNESS);
         }
     }
-    
+    //test
 
     onDeviceOrientation() {
         let gx_ = this.orientation.gamma / 90
