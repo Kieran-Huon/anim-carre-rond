@@ -28,13 +28,14 @@ class Bubble {
         this.context.closePath();
     }
 
-    update(width, height) {
+    update(width, height, speed) {
         /** gravity bounce */
         this.gx = this.x > this.radius ? this.gx : 0;
         this.gx = this.x < width - this.radius ? this.gx : 0;
 
-        this.x += (this.vx + this.gx) * this.time.delta / 1000;
-        this.y += (this.vy + this.gy) * this.time.delta / 1000;
+        // Appliquez le facteur de vitesse à la position
+        this.x += (this.vx + this.gx) * speed * this.time.delta / 1000;
+        this.y += (this.vy + this.gy) * speed * this.time.delta / 1000;
 
         /** bounce corrected */
         this.vx = this.x < this.radius ? Math.abs(this.vx) : this.vx;
@@ -48,12 +49,13 @@ export default class SceneBouncingBubbles extends Scene2D {
 
         /** debug */
         this.params = {
-            speed: 1, // positif ou negatif
+            speed: 1, // Contrôle la vitesse
             threshold: 50,
             radius: 5,
             nBubbles: 3,
             gStrength: 300
         };
+
         if (!!this.debugFolder) {
             this.debugFolder.add(this.params, "threshold", 0, 200);
             this.debugFolder.add(this.params, "radius", 0, 30, 0.1).name("Rayon").onChange(() => {
@@ -67,6 +69,9 @@ export default class SceneBouncingBubbles extends Scene2D {
                 this.generateBubbles();
             });
             this.debugFolder.add(this.params, "gStrength", 0, 400);
+            this.debugFolder.add(this.params, "speed", -1, 1, 0.1).name("Vitesse").onChange(() => {
+                console.log(`Speed updated: ${this.params.speed}`);
+            });
         }
 
         /** device orientation */
@@ -84,7 +89,7 @@ export default class SceneBouncingBubbles extends Scene2D {
         for (let i = 0; i < this.params.nBubbles; i++) {
             const x_ = this.width * Math.random();
             const y_ = this.height * Math.random();
-            const bubble_ = new Bubble(this.context, x_, y_, 5);
+            const bubble_ = new Bubble(this.context, x_, y_, this.params.radius);
             this.bubbles.push(bubble_);
         }
     }
@@ -98,7 +103,6 @@ export default class SceneBouncingBubbles extends Scene2D {
     removeBubble(bubble) {
         // Filtrer la liste des bulles pour exclure celle à supprimer
         this.bubbles = this.bubbles.filter(b => b !== bubble);
-
         console.log(`Bubble removed at (${bubble.x}, ${bubble.y})`);
     }
 
@@ -135,7 +139,7 @@ export default class SceneBouncingBubbles extends Scene2D {
     update() {
         if (!!this.bubbles) {
             this.bubbles.forEach(b => {
-                b.update(this.width, this.height);
+                b.update(this.width, this.height, this.params.speed);
             });
         }
 
