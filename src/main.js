@@ -34,66 +34,10 @@ let cooldown = {
 
 const COOLDOWN_LIMIT = 500; // Temps en ms entre deux transitions pour un même objet
 
-// const update = () => {
-//     const elapsed = time.elapsed;
-
-//     /** Scene 1 -> Scene 2 (bulles qui montent) */
-//     if (elapsed - cooldown.scene1ToScene2 > COOLDOWN_LIMIT) {
-//         const outScene1_up = scene1.bubbles.filter(b => b.y < 0);
-//         outScene1_up.forEach(bubble => {
-//             scene1.removeBubble(bubble);
-//             const newCube = scene2.addCube(bubble.x - scene2.width / 2, scene2.height / 2, "yellow");
-//             if (newCube && newCube.body) {
-//                 newCube.body.velocity.y = Math.abs(bubble.vy) / 100;
-//             }
-//         });
-//         cooldown.scene1ToScene2 = elapsed;
-//     }
-
-//     /** Scene 2 -> Scene 3 (cubes qui tombent) */
-//     if (elapsed - cooldown.scene2ToScene3 > COOLDOWN_LIMIT) {
-//         const outScene2_down = scene2.cubes.filter(c => c.position.y < -scene2.height / 2);
-//         outScene2_down.forEach(cube => {
-//             scene2.removeCube(cube);
-//             const newBubble = scene3.addBubble(cube.position.x + scene3.width / 2, 0);
-//             if (newBubble) {
-//                 newBubble.vy = Math.abs(cube.body.velocity.y) * 100;
-//             }
-//         });
-//         cooldown.scene2ToScene3 = elapsed;
-//     }
-
-//     /** Scene 3 -> Scene 2 (bulles qui montent) */
-//     if (elapsed - cooldown.scene3ToScene2 > COOLDOWN_LIMIT) {
-//         const outScene3_up = scene3.bubbles.filter(b => b.y < 0);
-//         outScene3_up.forEach(bubble => {
-//             scene3.removeBubble(bubble);
-//             const newCube = scene2.addCube(bubble.x - scene2.width / 2, scene2.height / 2, "blue");
-//             if (newCube && newCube.body) {
-//                 newCube.body.velocity.y = Math.abs(bubble.vy) / 100;
-//             }
-//         });
-//         cooldown.scene3ToScene2 = elapsed;
-//     }
-
-//     /** Scene 2 -> Scene 1 (cubes qui montent) */
-//     if (elapsed - cooldown.scene2ToScene1 > COOLDOWN_LIMIT) {
-//         const outScene2_up = scene2.cubes.filter(c => c.position.y > scene2.height / 2);
-//         outScene2_up.forEach(cube => {
-//             scene2.removeCube(cube);
-//             const newBubble = scene1.addBubble(cube.position.x + scene1.width / 2, scene1.height);
-//             if (newBubble) {
-//                 newBubble.vy = -Math.abs(cube.body.velocity.y) * 100;
-//             }
-//         });
-//         cooldown.scene2ToScene1 = elapsed;
-//     }
-// };
-
 const update = () => {
     const elapsed = time.elapsed;
 
-    /** Scene 1 -> Scene 2 (bulles qui montent et deviennent cubes) */
+    /** Scene 1 -> Scene 2 (bulles qui tombent) */
     if (elapsed - cooldown.scene1ToScene2 > COOLDOWN_LIMIT) {
         const outScene1_up = scene1.bubbles.filter(b => b.y < 0);
         outScene1_up.forEach(bubble => {
@@ -106,12 +50,12 @@ const update = () => {
         cooldown.scene1ToScene2 = elapsed;
     }
 
-    /** Scene 2 -> Scene 3 (cubes qui tombent et deviennent bulles) */
+    /** Scene 2 -> Scene 3 (cubes qui tombent) */
     if (elapsed - cooldown.scene2ToScene3 > COOLDOWN_LIMIT) {
         const outScene2_down = scene2.cubes.filter(c => c.position.y < -scene2.height / 2);
         outScene2_down.forEach(cube => {
             scene2.removeCube(cube);
-            const newBubble = scene3.addBubble(cube.position.x + scene3.width / 2, scene3.height); // Entrée par le bas
+            const newBubble = scene3.addBubble(cube.position.x + scene3.width / 2, 0);
             if (newBubble) {
                 newBubble.vy = Math.abs(cube.body.velocity.y) * 100;
             }
@@ -119,20 +63,7 @@ const update = () => {
         cooldown.scene2ToScene3 = elapsed;
     }
 
-    /** Scene 3 -> Scene 1 (bulles qui tombent et réapparaissent en haut) */
-    if (elapsed - cooldown.scene3ToScene1 > COOLDOWN_LIMIT) {
-        const outScene3_down = scene3.bubbles.filter(b => b.y > scene3.height);
-        outScene3_down.forEach(bubble => {
-            scene3.removeBubble(bubble);
-            const newBubble = scene1.addBubble(bubble.x, 0); // Réapparition en haut de la scène 1
-            if (newBubble) {
-                newBubble.vy = -Math.abs(bubble.vy); // Maintien de la vitesse vers le haut
-            }
-        });
-        cooldown.scene3ToScene1 = elapsed;
-    }
-
-    /** Scene 3 -> Scene 2 (bulles qui montent et deviennent cubes) */
+    /** Scene 3 -> Scene 2 (bulles qui montent) */
     if (elapsed - cooldown.scene3ToScene2 > COOLDOWN_LIMIT) {
         const outScene3_up = scene3.bubbles.filter(b => b.y < 0);
         outScene3_up.forEach(bubble => {
@@ -145,34 +76,19 @@ const update = () => {
         cooldown.scene3ToScene2 = elapsed;
     }
 
-    /** Scene 2 -> Scene 1 (cubes qui montent et deviennent bulles) */
+    /** Scene 2 -> Scene 1 (cubes qui montent) */
     if (elapsed - cooldown.scene2ToScene1 > COOLDOWN_LIMIT) {
         const outScene2_up = scene2.cubes.filter(c => c.position.y > scene2.height / 2);
         outScene2_up.forEach(cube => {
             scene2.removeCube(cube);
-            const newBubble = scene1.addBubble(cube.position.x + scene1.width / 2, 0); // Réapparition en haut
+            const newBubble = scene1.addBubble(cube.position.x + scene1.width / 2, scene1.height);
             if (newBubble) {
                 newBubble.vy = -Math.abs(cube.body.velocity.y) * 100;
             }
         });
         cooldown.scene2ToScene1 = elapsed;
     }
-
-    /** Scene 1 -> Scene 3 (bulles qui montent et réapparaissent en bas) */
-    if (elapsed - cooldown.scene1ToScene3 > COOLDOWN_LIMIT) {
-        const outScene1_down = scene1.bubbles.filter(b => b.y > scene1.height);
-        outScene1_down.forEach(bubble => {
-            scene1.removeBubble(bubble);
-            const newBubble = scene3.addBubble(bubble.x, scene3.height); // Réapparition en bas
-            if (newBubble) {
-                newBubble.vy = Math.abs(bubble.vy); // Maintien de la vitesse
-            }
-        });
-        cooldown.scene1ToScene3 = elapsed;
-    }
 };
-
-
 
 /** Attachez la fonction de mise à jour au gestionnaire de temps */
 time.on("update", update);
