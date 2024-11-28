@@ -29,26 +29,17 @@ class Bubble {
     }
 
     update(width, height, speed) {
-        /** Apply gravity */
+        /** gravity bounce */
+        this.gx = this.x > this.radius ? this.gx : 0;
+        this.gx = this.x < width - this.radius ? this.gx : 0;
+
+        // Appliquez le facteur de vitesse à la position
         this.x += (this.vx + this.gx) * speed * this.time.delta / 1000;
         this.y += (this.vy + this.gy) * speed * this.time.delta / 1000;
 
-        /** Bounce corrections */
-        if (this.x < this.radius) {
-            this.x = this.radius;
-            this.vx = Math.abs(this.vx);
-        } else if (this.x > width - this.radius) {
-            this.x = width - this.radius;
-            this.vx = -Math.abs(this.vx);
-        }
-
-        if (this.y < this.radius) {
-            this.y = this.radius;
-            this.vy = Math.abs(this.vy);
-        } else if (this.y > height - this.radius) {
-            this.y = height - this.radius;
-            this.vy = -Math.abs(this.vy);
-        }
+        /** bounce corrected */
+        this.vx = this.x < this.radius ? Math.abs(this.vx) : this.vx;
+        this.vx = this.x > width - this.radius ? -Math.abs(this.vx) : this.vx;
     }
 }
 
@@ -56,120 +47,131 @@ export default class SceneBouncingBubbles extends Scene2D {
     constructor(id) {
         super(id);
 
-        /** Parameters */
+        /** debug */
         this.params = {
-            speed: 1, // Control the speed of bubbles
-            threshold: 50, // Distance for connecting lines
-            radius: 5, // Radius of bubbles
-            nBubbles: 10, // Number of bubbles
-            gStrength: 300 // Gravity strength
+            speed: 1, // Contrôle la vitesse
+            threshold: 50,
+            radius: 5,
+            nBubbles: 3,
+            gStrength: 300
         };
 
-        /** Debug panel */
         if (!!this.debugFolder) {
-            this.debugFolder.add(this.params, "speed", 0.1, 5, 0.1).name("Vitesse des Bulles");
-            this.debugFolder.add(this.params, "threshold", 0, 200).name("Distance de Lien");
-            this.debugFolder.add(this.params, "radius", 1, 30, 0.1).name("Rayon des Bulles").onChange(() => {
-                this.bubbles.forEach(b => (b.radius = this.params.radius));
+            this.debugFolder.add(this.params, "threshold", 0, 200);
+            this.debugFolder.add(this.params, "radius", 0, 30, 0.1).name("Rayon").onChange(() => {
+                if (!!this.bubbles) {
+                    this.bubbles.forEach(b => {
+                        b.radius = this.params.radius;
+                    });
+                }
             });
-            this.debugFolder.add(this.params, "nBubbles", 1, 50, 1).name("Nombre de Bulles").onFinishChange(() => {
+            this.debugFolder.add(this.params, "nBubbles", 3, 50).onFinishChange(() => {
                 this.generateBubbles();
             });
-            this.debugFolder.add({ addBubble: () => this.addRandomBubble() }, "addBubble").name("Ajouter une Bulle");
+            this.debugFolder.add(this.params, "gStrength", 0, 400);
+            this.debugFolder.add(this.params, "speed", -1, 1, 0.1).name("Vitesse").onChange(() => {
+                console.log(`Speed updated: ${this.params.speed}`);
+            });
         }
 
-        /** Device orientation */
+        /** device orientation */
         this.globalContext.useDeviceOrientation = true;
         this.orientation = this.globalContext.orientation;
 
-        /** Initialization */
+        /** init */
         this.generateBubbles();
         this.draw();
     }
 
-    /** Generate bubbles */
     generateBubbles() {
+        /** generate bubbles */
         this.bubbles = [];
         for (let i = 0; i < this.params.nBubbles; i++) {
-            const x = randomRange(this.params.radius, this.width - this.params.radius);
-            const y = randomRange(this.params.radius, this.height - this.params.radius);
-            this.bubbles.push(new Bubble(this.context, x, y, this.params.radius));
+            const x_ = this.width * Math.random();
+            const y_ = this.height * Math.random();
+            const bubble_ = new Bubble(this.context, x_, y_, this.params.radius);
+            this.bubbles.push(bubble_);
         }
     }
 
-    /** Add a bubble at specific coordinates */
     addBubble(x, y) {
-        const bubble = new Bubble(this.context, x, y, this.params.radius);
-        this.bubbles.push(bubble);
-        console.log(`Bulle ajoutée à (${x}, ${y}).`);
-        return bubble;
+        const bubble_ = new Bubble(this.context, x, y, this.params.radius);
+        this.bubbles.push(bubble_);
+        return bubble_;
     }
 
-    /** Add a bubble at random position */
-    addRandomBubble() {
-        const x = randomRange(this.params.radius, this.width - this.params.radius);
-        const y = randomRange(this.params.radius, this.height - this.params.radius);
-        this.addBubble(x, y);
-    }
-
-    /** Remove a specific bubble */
     removeBubble(bubble) {
-        if (!this.bubbles.includes(bubble)) {
-            console.warn("Tentative de suppression d'une bulle inexistante !");
-            return;
-        }
+        // Filtrer la liste des bulles pour exclure celle à supprimer
         this.bubbles = this.bubbles.filter(b => b !== bubble);
         console.log(`Bubble removed at (${bubble.x}, ${bubble.y})`);
     }
 
-    /** Draw the scene */
     draw() {
+        /** style */
         this.context.strokeStyle = "white";
         this.context.fillStyle = "black";
         this.context.lineWidth = 2;
+        this.context.lineCap = "round";
 
-        /** Draw connections */
-        this.bubbles.forEach((current, i) => {
-            for (let j = i + 1; j < this.bubbles.length; j++) {
-                const next = this.bubbles[j];
-                if (distance2D(current.x, current.y, next.x, next.y) < this.params.threshold) {
-                    this.context.beginPath();
-                    this.context.moveTo(current.x, current.y);
-                    this.context.lineTo(next.x, next.y);
-                    this.context.stroke();
+        /** draw */
+        if (!!this.bubbles) {
+            for (let i = 0; i < this.bubbles.length; i++) {
+                const current_ = this.bubbles[i];
+                for (let j = i; j < this.bubbles.length; j++) {
+                    const next_ = this.bubbles[j];
+
+                    if (distance2D(current_.x, current_.y, next_.x, next_.y) < this.params.threshold) {
+                        this.context.beginPath();
+                        this.context.moveTo(current_.x, current_.y);
+                        this.context.lineTo(next_.x, next_.y);
+                        this.context.stroke();
+                        this.context.closePath();
+                    }
                 }
             }
-        });
 
-        /** Draw bubbles */
-        this.bubbles.forEach(b => b.draw());
+            this.bubbles.forEach(b => {
+                b.draw();
+            });
+        }
     }
 
-    /** Update the scene */
     update() {
-        this.bubbles.forEach(b => b.update(this.width, this.height, this.params.speed));
+        if (!!this.bubbles) {
+            this.bubbles.forEach(b => {
+                b.update(this.width, this.height, this.params.speed);
+            });
+        }
+
         this.clear();
         this.draw();
     }
 
-    /** Handle resizing */
     resize() {
         super.resize();
-        this.bubbles.forEach(b => {
-            b.x = Math.min(Math.max(b.x, b.radius), this.width - b.radius);
-            b.y = Math.min(Math.max(b.y, b.radius), this.height - b.radius);
-        });
+
+        if (!!this.bubbles) {
+            this.bubbles.forEach(b => {
+                b.x = Math.max(0, Math.min(b.x, this.width));
+                b.y = Math.max(0, Math.min(b.y, this.height));
+            });
+        }
+
         this.draw();
     }
 
-    /** Update bubbles with device orientation */
     onDeviceOrientation() {
-        const gx = clamp(this.orientation.gamma / 90, -1, 1);
-        const gy = clamp(this.orientation.beta / 90, -1, 1);
+        let gx_ = this.orientation.gamma / 90;
+        let gy_ = this.orientation.beta / 90;
+        gx_ = clamp(gx_, -1, 1);
+        gy_ = clamp(gy_, -1, 1);
 
-        this.bubbles.forEach(b => {
-            b.gx = gx * this.params.gStrength;
-            b.gy = gy * this.params.gStrength;
-        });
+        /** update bubbles */
+        if (!!this.bubbles) {
+            this.bubbles.forEach(b => {
+                b.gx = gx_ * this.params.gStrength;
+                b.gy = gy_ * this.params.gStrength;
+            });
+        }
     }
 }
