@@ -111,7 +111,7 @@ const update = () => {
         const outScene2_down = scene2.cubes.filter(c => c.position.y < -scene2.height / 2);
         outScene2_down.forEach(cube => {
             scene2.removeCube(cube);
-            const newBubble = scene3.addBubble(cube.position.x + scene3.width / 2, scene3.height); // Réapparition en bas
+            const newBubble = scene3.addBubble(cube.position.x + scene3.width / 2, scene3.height); // Entrée par le bas
             if (newBubble) {
                 newBubble.vy = Math.abs(cube.body.velocity.y) * 100;
             }
@@ -124,9 +124,9 @@ const update = () => {
         const outScene3_down = scene3.bubbles.filter(b => b.y > scene3.height);
         outScene3_down.forEach(bubble => {
             scene3.removeBubble(bubble);
-            const newBubble = scene1.addBubble(bubble.x, 0); // Réapparition en haut
+            const newBubble = scene1.addBubble(bubble.x, 0); // Réapparition en haut de la scène 1
             if (newBubble) {
-                newBubble.vy = -Math.abs(bubble.vy); // Vitesse vers le haut
+                newBubble.vy = -Math.abs(bubble.vy); // Maintien de la vitesse vers le haut
             }
         });
         cooldown.scene3ToScene1 = elapsed;
@@ -171,6 +171,7 @@ const update = () => {
         cooldown.scene1ToScene3 = elapsed;
     }
 };
+
 
 
 /** Attachez la fonction de mise à jour au gestionnaire de temps */
