@@ -25,18 +25,18 @@ export default class SceneGravityCubes extends Scene3D {
         /** orthographic camera */
         this.camera = new THREE.OrthographicCamera(
             -this.width / 2, this.width / 2, this.height / 2, -this.height / 2,
-            0.1, 2000 //-> near / far default (optional)
+            0.1, 2000
         );
         this.camera.position.z = 1000;
 
         /** walls */
         this.wallRight = new Wall('blue');
         this.wallLeft = new Wall('green');
-        this.wallMiddle = new Wall('purple'); // Mur horizontal intermédiaire
+        this.wallMiddle = new Wall('purple');
 
         this.add(this.wallRight);
         this.add(this.wallLeft);
-        this.add(this.wallMiddle); // Ajouter le mur intermédiaire horizontal à la scène
+        this.add(this.wallMiddle);
 
         /** cubes */
         this.cubes = [];
@@ -57,7 +57,7 @@ export default class SceneGravityCubes extends Scene3D {
         this.bodies = [
             this.wallRight.body,
             this.wallLeft.body,
-            this.wallMiddle.body, // Ajouter le corps du mur intermédiaire au moteur physique
+            this.wallMiddle.body,
             ...this.cubes.map(c => c.body)
         ];
         Composite.add(this.engine.world, this.bodies);
@@ -74,42 +74,30 @@ export default class SceneGravityCubes extends Scene3D {
 
     /** Ajouter un cube à la scène dynamiquement */
     addCube(x, y, color = 'green') {
-        // Créer un nouveau cube
-        const cube = new GravityCube(50, color); // Taille fixe de 50 pour le cube
+        const cube = new GravityCube(50, color);
         cube.setPosition(x, y);
 
-        // Ajouter le cube à la scène Three.js
         this.add(cube);
-
-        // Ajouter le cube à la liste des cubes
         this.cubes.push(cube);
-
-        // Ajouter le cube au moteur physique Matter.js
         Composite.add(this.engine.world, cube.body);
 
-        console.log(`Cube added at (${x}, ${y}) with color ${color}`);
+        console.log(`Cube ajouté à (${x}, ${y}) avec couleur ${color}`);
         return cube;
     }
 
     /** Supprimer un cube de la scène */
     removeCube(cube) {
-        /** dispose from memory */
         cube.geometry.dispose();
         cube.material.dispose();
         cube.removeFromParent();
-
-        /** dispose from matter js */
         Composite.remove(this.engine.world, cube.body);
-
-        /** dispose from scene */
         this.cubes = this.cubes.filter(c => c !== cube);
+        console.log(`Cube supprimé à (${cube.position.x}, ${cube.position.y})`);
     }
 
     update() {
-        this.cubes.forEach(c => {
-            c.update();
-        });
-        super.update(); //-> rendu de la scène
+        this.cubes.forEach(c => c.update());
+        super.update();
     }
 
     resize() {
@@ -119,7 +107,6 @@ export default class SceneGravityCubes extends Scene3D {
         this.camera.right = this.width / 2;
         this.camera.top = this.height / 2;
         this.camera.bottom = -this.height / 2;
-
         this.camera.updateProjectionMatrix();
 
         if (!!this.wallRight) {
@@ -133,8 +120,8 @@ export default class SceneGravityCubes extends Scene3D {
         }
 
         if (!!this.wallMiddle) {
-            this.wallMiddle.setPosition(0, 0); // Positionner au centre verticalement
-            this.wallMiddle.setSize(this.width / 2, THICKNESS); // Taille horizontale partielle
+            this.wallMiddle.setPosition(0, 0);
+            this.wallMiddle.setSize(this.width / 2, THICKNESS);
         }
     }
 
@@ -144,15 +131,6 @@ export default class SceneGravityCubes extends Scene3D {
         gx_ = clamp(gx_, -1, 1);
         gy_ = clamp(gy_, -1, 1);
 
-        /** debug */
-        let coordinates_ = "";
-        coordinates_ = coordinates_.concat(
-            gx_.toFixed(2), ", ",
-            gy_.toFixed(2)
-        );
-        this.debug.domDebug = coordinates_;
-
-        /** update engine gravity */
         this.engine.gravity.x = gx_;
         this.engine.gravity.y = gy_;
     }

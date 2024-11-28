@@ -100,11 +100,20 @@ export default class SceneBouncingBubbles extends Scene2D {
         return bubble_;
     }
 
+    // removeBubble(bubble) {
+    //     // Filtrer la liste des bulles pour exclure celle à supprimer
+    //     this.bubbles = this.bubbles.filter(b => b !== bubble);
+    //     console.log(`Bubble removed at (${bubble.x}, ${bubble.y})`);
+    // }
     removeBubble(bubble) {
-        // Filtrer la liste des bulles pour exclure celle à supprimer
+        if (!this.bubbles.includes(bubble)) {
+            console.warn("Tentative de suppression d'une bulle inexistante !");
+            return;
+        }
         this.bubbles = this.bubbles.filter(b => b !== bubble);
         console.log(`Bubble removed at (${bubble.x}, ${bubble.y})`);
     }
+    
 
     draw() {
         /** style */

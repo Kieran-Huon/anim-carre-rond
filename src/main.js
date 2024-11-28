@@ -40,6 +40,7 @@ const update = () => {
             console.error("Failed to create a valid cube from bubble", bubble);
         }
     });
+    console.log(`Transition de Scene1 à Scene2 : ${outScene1_up.length} bulles transformées.`);
 
     /** Scene 2 -> Scene 3 (cubes qui tombent) */
     const outScene2_down = scene2.cubes.filter(c => c.position.y < -scene2.height / 2);
@@ -101,6 +102,8 @@ const update = () => {
         }
     });
 };
+
+
 
 /** Attachez la fonction de mise à jour au gestionnaire de temps */
 time.on("update", update);
