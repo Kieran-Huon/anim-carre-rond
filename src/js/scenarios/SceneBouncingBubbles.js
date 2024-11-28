@@ -112,10 +112,20 @@ export default class SceneBouncingBubbles extends Scene2D {
     //     this.bubbles = this.bubbles.filter(b => b !== bubble);
     //     console.log(`Bubble removed at (${bubble.x}, ${bubble.y})`);
     // }
+    // removeBubble(bubble) {
+    //     this.bubbles = this.bubbles.filter(b => b !== bubble);
+    //     console.log(`Bubble removed at (${bubble.x}, ${bubble.y})`);
+    // }
     removeBubble(bubble) {
-        this.bubbles = this.bubbles.filter(b => b !== bubble);
-        console.log(`Bubble removed at (${bubble.x}, ${bubble.y})`);
+        const index = this.bubbles.indexOf(bubble);
+        if (index !== -1) {
+            this.bubbles.splice(index, 1);
+            console.log(`Bubble removed at (${bubble.x}, ${bubble.y})`);
+        } else {
+            console.error("Bubble not found in removeBubble", bubble);
+        }
     }
+    
     
 
     draw() {
