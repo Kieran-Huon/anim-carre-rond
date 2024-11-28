@@ -200,13 +200,15 @@ const update = () => {
         cooldown.scene2ToScene1 = elapsed;
     }
 
-    /** Scene 1 -> Scene 3 (bulles qui montent et réapparaissent en bas de la scène 3) */
+     /** Scene 1 -> Scene 3 (bulles qui montent et réapparaissent en bas de la scène 3) */
     if (elapsed - cooldown.scene1ToScene3 > COOLDOWN_LIMIT) {
         const outScene1_up = scene1.bubbles.filter(b => b.y < 0);
         outScene1_up.forEach(bubble => {
+            console.log("Scene 1 -> Scene 3: Removing bubble", bubble);
             scene1.removeBubble(bubble);
-            const newBubble = scene3.addBubble(bubble.x, scene3.height); // En bas de la scène 3
+            const newBubble = scene3.addBubble(bubble.x, scene3.height);
             if (newBubble) {
+                console.log("Scene 1 -> Scene 3: Adding bubble to Scene 3", newBubble);
                 newBubble.vy = Math.abs(bubble.vy);
             }
         });
@@ -217,14 +219,18 @@ const update = () => {
     if (elapsed - cooldown.scene3ToScene1 > COOLDOWN_LIMIT) {
         const outScene3_down = scene3.bubbles.filter(b => b.y > scene3.height);
         outScene3_down.forEach(bubble => {
+            console.log("Scene 3 -> Scene 1: Removing bubble", bubble);
             scene3.removeBubble(bubble);
-            const newBubble = scene1.addBubble(bubble.x, 0); // En haut de la scène 1
+            const newBubble = scene1.addBubble(bubble.x, 0);
             if (newBubble) {
+                console.log("Scene 3 -> Scene 1: Adding bubble to Scene 1", newBubble);
                 newBubble.vy = -Math.abs(bubble.vy);
             }
         });
         cooldown.scene3ToScene1 = elapsed;
     }
+
+    
 };
 
 

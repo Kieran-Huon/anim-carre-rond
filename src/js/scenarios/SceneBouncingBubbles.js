@@ -94,17 +94,29 @@ export default class SceneBouncingBubbles extends Scene2D {
         }
     }
 
+    // addBubble(x, y) {
+    //     const bubble_ = new Bubble(this.context, x, y, this.params.radius);
+    //     this.bubbles.push(bubble_);
+    //     return bubble_;
+    // }
     addBubble(x, y) {
-        const bubble_ = new Bubble(this.context, x, y, this.params.radius);
-        this.bubbles.push(bubble_);
-        return bubble_;
+        const bubble = new Bubble(this.context, x, y, this.params.radius);
+        this.bubbles.push(bubble);
+        console.log(`Bubble added at (${x}, ${y})`);
+        return bubble;
     }
+    
 
+    // removeBubble(bubble) {
+    //     // Filtrer la liste des bulles pour exclure celle à supprimer
+    //     this.bubbles = this.bubbles.filter(b => b !== bubble);
+    //     console.log(`Bubble removed at (${bubble.x}, ${bubble.y})`);
+    // }
     removeBubble(bubble) {
-        // Filtrer la liste des bulles pour exclure celle à supprimer
         this.bubbles = this.bubbles.filter(b => b !== bubble);
         console.log(`Bubble removed at (${bubble.x}, ${bubble.y})`);
     }
+    
 
     draw() {
         /** style */
