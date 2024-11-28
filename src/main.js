@@ -76,18 +76,34 @@ const update = () => {
         cooldown.scene2ToScene3 = elapsed;
     }
 
+    // /** Scene 3 -> Scene 2 (bulles qui montent) */
+    // if (elapsed - cooldown.scene3ToScene2 > COOLDOWN_LIMIT) {
+    //     const outScene3_up = scene3.bubbles.filter(b => b.y < 0);
+    //     outScene3_up.forEach(bubble => {
+    //         scene3.removeBubble(bubble);
+    //         const newCube = scene2.addCube(bubble.x - scene2.width / 2, scene2.height / 2, "blue");
+    //         if (newCube && newCube.body) {
+    //             newCube.body.velocity.y = Math.abs(bubble.vy) / 100;
+    //         }
+    //     });
+    //     cooldown.scene3ToScene2 = elapsed;
+    // }
+
     /** Scene 3 -> Scene 2 (bulles qui montent) */
-    if (elapsed - cooldown.scene3ToScene2 > COOLDOWN_LIMIT) {
-        const outScene3_up = scene3.bubbles.filter(b => b.y < 0);
-        outScene3_up.forEach(bubble => {
-            scene3.removeBubble(bubble);
-            const newCube = scene2.addCube(bubble.x - scene2.width / 2, scene2.height / 2, "blue");
-            if (newCube && newCube.body) {
-                newCube.body.velocity.y = Math.abs(bubble.vy) / 100;
-            }
-        });
-        cooldown.scene3ToScene2 = elapsed;
-    }
+if (elapsed - cooldown.scene3ToScene2 > COOLDOWN_LIMIT) {
+    const outScene3_up = scene3.bubbles.filter(b => b.y < 0); // Bulles qui sortent par le haut
+    outScene3_up.forEach(bubble => {
+        scene3.removeBubble(bubble);
+
+        // Ajoute le carré en bas de la scène 2
+        const newCube = scene2.addCube(bubble.x - scene2.width / 2, -scene2.height / 2, "blue");
+        if (newCube && newCube.body) {
+            newCube.body.velocity.y = Math.abs(bubble.vy) / 100; // Transmission de la vitesse
+        }
+    });
+    cooldown.scene3ToScene2 = elapsed;
+}
+
 
     /** Scene 2 -> Scene 1 (cubes qui montent) */
     if (elapsed - cooldown.scene2ToScene1 > COOLDOWN_LIMIT) {
