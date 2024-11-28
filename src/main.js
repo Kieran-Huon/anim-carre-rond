@@ -119,35 +119,35 @@ const update = () => {
     }
 };
 
-/** Scene 1 -> Scene 3 (bulles qui montent et réapparaissent en bas de la scène 3) */
-if (elapsed - cooldown.scene1ToScene3 > COOLDOWN_LIMIT) {
-    const outScene1_up = scene1.bubbles.filter(b => b.y < 0); // Bulles qui sortent par le haut
-    outScene1_up.forEach(bubble => {
-        scene1.removeBubble(bubble);
+// /** Scene 1 -> Scene 3 (bulles qui montent et réapparaissent en bas de la scène 3) */
+// if (elapsed - cooldown.scene1ToScene3 > COOLDOWN_LIMIT) {
+//     const outScene1_up = scene1.bubbles.filter(b => b.y < 0); // Bulles qui sortent par le haut
+//     outScene1_up.forEach(bubble => {
+//         scene1.removeBubble(bubble);
 
-        // Ajoute une bulle en bas de la scène 3
-        const newBubble = scene3.addBubble(bubble.x, scene3.height);
-        if (newBubble) {
-            newBubble.vy = Math.abs(bubble.vy); // Maintien de la vitesse vers le haut
-        }
-    });
-    cooldown.scene1ToScene3 = elapsed;
-}
+//         // Ajoute une bulle en bas de la scène 3
+//         const newBubble = scene3.addBubble(bubble.x, scene3.height);
+//         if (newBubble) {
+//             newBubble.vy = Math.abs(bubble.vy); // Maintien de la vitesse vers le haut
+//         }
+//     });
+//     cooldown.scene1ToScene3 = elapsed;
+// }
 
-/** Scene 3 -> Scene 1 (bulles qui descendent et réapparaissent en haut de la scène 1) */
-if (elapsed - cooldown.scene3ToScene1 > COOLDOWN_LIMIT) {
-    const outScene3_down = scene3.bubbles.filter(b => b.y > scene3.height); // Bulles qui sortent par le bas
-    outScene3_down.forEach(bubble => {
-        scene3.removeBubble(bubble);
+// /** Scene 3 -> Scene 1 (bulles qui descendent et réapparaissent en haut de la scène 1) */
+// if (elapsed - cooldown.scene3ToScene1 > COOLDOWN_LIMIT) {
+//     const outScene3_down = scene3.bubbles.filter(b => b.y > scene3.height); // Bulles qui sortent par le bas
+//     outScene3_down.forEach(bubble => {
+//         scene3.removeBubble(bubble);
 
-        // Ajoute une bulle en haut de la scène 1
-        const newBubble = scene1.addBubble(bubble.x, 0);
-        if (newBubble) {
-            newBubble.vy = -Math.abs(bubble.vy); // Maintien de la vitesse vers le bas
-        }
-    });
-    cooldown.scene3ToScene1 = elapsed;
-}
+//         // Ajoute une bulle en haut de la scène 1
+//         const newBubble = scene1.addBubble(bubble.x, 0);
+//         if (newBubble) {
+//             newBubble.vy = -Math.abs(bubble.vy); // Maintien de la vitesse vers le bas
+//         }
+//     });
+//     cooldown.scene3ToScene1 = elapsed;
+// }
 
 
 /** Attachez la fonction de mise à jour au gestionnaire de temps */
