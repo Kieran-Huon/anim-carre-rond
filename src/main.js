@@ -34,35 +34,18 @@ const update = () => {
     outScene1_up.forEach(bubble => {
         scene1.removeBubble(bubble);
         const newCube = scene2.addCube(bubble.x - scene2.width / 2, scene2.height / 2, "yellow");
-        if (newCube && newCube.body) { // Vérification
+        if (newCube && newCube.body) {
             newCube.body.velocity.y = Math.abs(bubble.vy) / 100; // Transmission de vitesse
-        } else {
-            console.error("Failed to create a valid cube from bubble", bubble);
         }
     });
-    console.log(`Transition de Scene1 à Scene2 : ${outScene1_up.length} bulles transformées.`);
 
     /** Scene 2 -> Scene 3 (cubes qui tombent) */
     const outScene2_down = scene2.cubes.filter(c => c.position.y < -scene2.height / 2);
     outScene2_down.forEach(cube => {
         scene2.removeCube(cube);
         const newBubble = scene3.addBubble(cube.position.x + scene3.width / 2, 0);
-        if (newBubble) { // Vérification
-            newBubble.vy = Math.abs(newBubble.vy);
-        } else {
-            console.error("Failed to create a valid bubble from cube", cube);
-        }
-    });
-
-    /** Scene 3 -> Scene 1 (bulles qui tombent) */
-    const outScene3_down = scene3.bubbles.filter(b => b.y > scene3.height);
-    outScene3_down.forEach(bubble => {
-        scene3.removeBubble(bubble);
-        const newBubble = scene1.addBubble(bubble.x, 0);
-        if (newBubble) { // Vérification
-            newBubble.vy = -Math.abs(newBubble.vy);
-        } else {
-            console.error("Failed to create a valid bubble from bubble", bubble);
+        if (newBubble) {
+            newBubble.vy = Math.abs(cube.body.velocity.y) * 100; // Transmission de vitesse
         }
     });
 
@@ -71,10 +54,8 @@ const update = () => {
     outScene3_up.forEach(bubble => {
         scene3.removeBubble(bubble);
         const newCube = scene2.addCube(bubble.x - scene2.width / 2, scene2.height / 2, "blue");
-        if (newCube && newCube.body) { // Vérification
+        if (newCube && newCube.body) {
             newCube.body.velocity.y = Math.abs(bubble.vy) / 100;
-        } else {
-            console.error("Failed to create a valid cube from bubble", bubble);
         }
     });
 
@@ -83,27 +64,49 @@ const update = () => {
     outScene2_up.forEach(cube => {
         scene2.removeCube(cube);
         const newBubble = scene1.addBubble(cube.position.x + scene1.width / 2, scene1.height);
-        if (newBubble) { // Vérification
-            newBubble.vy = -Math.abs(newBubble.vy);
-        } else {
-            console.error("Failed to create a valid bubble from cube", cube);
+        if (newBubble) {
+            newBubble.vy = -Math.abs(cube.body.velocity.y) * 100; // Transmission de vitesse
         }
     });
 
-    /** Scene 1 -> Scene 3 (bulles qui tombent) */
+    /** Scene 1 -> Scene 2 -> Scene 3 (bulles qui tombent) */
     const outScene1_down = scene1.bubbles.filter(b => b.y > scene1.height);
     outScene1_down.forEach(bubble => {
         scene1.removeBubble(bubble);
-        const newBubble = scene3.addBubble(bubble.x, 0);
-        if (newBubble) { // Vérification
-            newBubble.vy = Math.abs(newBubble.vy);
-        } else {
-            console.error("Failed to create a valid bubble from bubble", bubble);
+        const tempCube = scene2.addCube(bubble.x - scene2.width / 2, -scene2.height / 2, "purple");
+        if (tempCube && tempCube.body) {
+            tempCube.body.velocity.y = -Math.abs(bubble.vy) / 100; // Transmission de vitesse
+
+            // Transition automatique du cube de la scène 2 vers la scène 3
+            const tempCubeOut = setTimeout(() => {
+                scene2.removeCube(tempCube);
+                const finalBubble = scene3.addBubble(tempCube.position.x + scene3.width / 2, 0);
+                if (finalBubble) {
+                    finalBubble.vy = Math.abs(tempCube.body.velocity.y) * 100;
+                }
+            }, 100); // Déplacement avec délai pour passer par scène 2
+        }
+    });
+
+    /** Scene 3 -> Scene 2 -> Scene 1 (bulles qui tombent) */
+    const outScene3_down = scene3.bubbles.filter(b => b.y > scene3.height);
+    outScene3_down.forEach(bubble => {
+        scene3.removeBubble(bubble);
+        const tempCube = scene2.addCube(bubble.x - scene2.width / 2, -scene2.height / 2, "orange");
+        if (tempCube && tempCube.body) {
+            tempCube.body.velocity.y = -Math.abs(bubble.vy) / 100; // Transmission de vitesse
+
+            // Transition automatique du cube de la scène 2 vers la scène 1
+            const tempCubeOut = setTimeout(() => {
+                scene2.removeCube(tempCube);
+                const finalBubble = scene1.addBubble(tempCube.position.x + scene1.width / 2, scene1.height);
+                if (finalBubble) {
+                    finalBubble.vy = -Math.abs(tempCube.body.velocity.y) * 100;
+                }
+            }, 100); // Déplacement avec délai pour passer par scène 2
         }
     });
 };
-
-
 
 /** Attachez la fonction de mise à jour au gestionnaire de temps */
 time.on("update", update);
