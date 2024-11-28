@@ -57,21 +57,24 @@ export default class SceneBouncingBubbles extends Scene2D {
         };
 
         if (!!this.debugFolder) {
-            this.debugFolder.add(this.params, "threshold", 0, 200);
-            this.debugFolder.add(this.params, "radius", 0, 30, 0.1).name("Rayon").onChange(() => {
+            this.debugFolder.add(this.params, "threshold", 0, 200).name("Distance de Lien");
+            this.debugFolder.add(this.params, "radius", 0, 30, 0.1).name("Rayon des Bulles").onChange(() => {
                 if (!!this.bubbles) {
                     this.bubbles.forEach(b => {
                         b.radius = this.params.radius;
                     });
                 }
             });
-            this.debugFolder.add(this.params, "nBubbles", 3, 50).onFinishChange(() => {
+            this.debugFolder.add(this.params, "nBubbles", 3, 50).name("Nb de Bulles").onFinishChange(() => {
                 this.generateBubbles();
             });
-            this.debugFolder.add(this.params, "gStrength", 0, 400);
-            this.debugFolder.add(this.params, "speed", -1, 1, 0.1).name("Vitesse").onChange(() => {
-                console.log(`Speed updated: ${this.params.speed}`);
-            });
+            this.debugFolder.add(this.params, "gStrength", 0, 400).name("Gravité");
+
+            // Contrôle de la vitesse des bulles
+            this.debugFolder.add(this.params, "speed", -2, 2, 0.1).name("Vitesse des Bulles");
+
+            // Bouton pour ajouter une bulle
+            this.debugFolder.add({ addBubble: () => this.addRandomBubble() }, "addBubble").name("Ajouter une Bulle");
         }
 
         /** device orientation */
@@ -97,14 +100,16 @@ export default class SceneBouncingBubbles extends Scene2D {
     addBubble(x, y) {
         const bubble_ = new Bubble(this.context, x, y, this.params.radius);
         this.bubbles.push(bubble_);
+        console.log(`Bulle ajoutée à (${x}, ${y}).`);
         return bubble_;
     }
 
-    // removeBubble(bubble) {
-    //     // Filtrer la liste des bulles pour exclure celle à supprimer
-    //     this.bubbles = this.bubbles.filter(b => b !== bubble);
-    //     console.log(`Bubble removed at (${bubble.x}, ${bubble.y})`);
-    // }
+    addRandomBubble() {
+        const x_ = Math.random() * this.width;
+        const y_ = Math.random() * this.height;
+        this.addBubble(x_, y_);
+    }
+
     removeBubble(bubble) {
         if (!this.bubbles.includes(bubble)) {
             console.warn("Tentative de suppression d'une bulle inexistante !");
@@ -113,7 +118,6 @@ export default class SceneBouncingBubbles extends Scene2D {
         this.bubbles = this.bubbles.filter(b => b !== bubble);
         console.log(`Bubble removed at (${bubble.x}, ${bubble.y})`);
     }
-    
 
     draw() {
         /** style */

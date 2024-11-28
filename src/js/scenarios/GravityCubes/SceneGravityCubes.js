@@ -14,12 +14,19 @@ export default class SceneGravityCubes extends Scene3D {
 
         /** debug */
         this.params = {
-            gScale: 1
+            gScale: 1,
+            cubeSpeed: 1, // Contrôle de la vitesse des cubes
         };
         if (!!this.debugFolder) {
             this.debugFolder.add(this.params, "gScale", 0.5, 10, 0.1).onChange(() => {
                 if (!!this.engine) this.engine.gravity.scale *= this.params.gScale;
             });
+
+            // Bouton pour ajouter un cube
+            this.debugFolder.add({ addCube: () => this.addCube(0, 0, 'green') }, 'addCube').name("Ajouter un Cube");
+
+            // Contrôle de la vitesse des cubes
+            this.debugFolder.add(this.params, "cubeSpeed", 0.1, 5, 0.1).name("Vitesse des Cubes");
         }
 
         /** orthographic camera */
@@ -96,7 +103,11 @@ export default class SceneGravityCubes extends Scene3D {
     }
 
     update() {
-        this.cubes.forEach(c => c.update());
+        this.cubes.forEach(c => {
+            // Appliquer la vitesse configurée
+            c.body.velocity.y *= this.params.cubeSpeed;
+            c.update();
+        });
         super.update();
     }
 
