@@ -303,21 +303,21 @@ const update = () => {
 if (elapsed - cooldown.scene1ToScene3 > COOLDOWN_LIMIT) {
     const outScene1_up = scene1.bubbles.filter(b => b.y < 0); // Bulles sortant en haut de la scène 1
     outScene1_up.forEach(bubble => {
-        console.log("Scene 1 -> Scene 3: Transitioning bubble", bubble);
+        console.log("Scene 1 -> Scene 3: Bubble transitioning", bubble);
 
         // Supprimer la bulle de la scène 1
         scene1.removeBubble(bubble);
         if (!scene1.bubbles.includes(bubble)) {
-            console.log("Scene 1: Bubble successfully removed");
+            console.log("Scene 1 -> Scene 3: Bubble successfully removed from Scene 1");
         } else {
-            console.error("Scene 1: Failed to remove bubble", bubble);
+            console.error("Scene 1 -> Scene 3: Failed to remove bubble from Scene 1", bubble);
         }
 
-        // Ajouter la bulle à la scène 3 en bas
+        // Ajouter la bulle en bas de la scène 3
         const newBubble = scene3.addBubble(bubble.x, scene3.height);
         if (newBubble) {
             newBubble.vx = bubble.vx; // Maintenir la vitesse horizontale
-            newBubble.vy = Math.abs(bubble.vy); // Rendre la vitesse positive pour monter
+            newBubble.vy = Math.abs(bubble.vy); // Appliquer une vitesse positive pour monter
             console.log("Scene 1 -> Scene 3: Bubble added to Scene 3", newBubble);
         } else {
             console.error("Scene 1 -> Scene 3: Failed to add bubble to Scene 3");
@@ -327,25 +327,26 @@ if (elapsed - cooldown.scene1ToScene3 > COOLDOWN_LIMIT) {
 }
 
 
-//** Scene 3 -> Scene 1 (bulles qui descendent et réapparaissent en haut de la scène 1) */
+
+/** Scene 3 -> Scene 1 (bulles qui descendent et réapparaissent en haut de la scène 1) */
 if (elapsed - cooldown.scene3ToScene1 > COOLDOWN_LIMIT) {
     const outScene3_down = scene3.bubbles.filter(b => b.y > scene3.height); // Bulles sortant par le bas de la scène 3
     outScene3_down.forEach(bubble => {
-        console.log("Scene 3 -> Scene 1: Transitioning bubble", bubble);
+        console.log("Scene 3 -> Scene 1: Bubble transitioning", bubble);
 
         // Supprimer la bulle de la scène 3
         scene3.removeBubble(bubble);
         if (!scene3.bubbles.includes(bubble)) {
-            console.log("Scene 3: Bubble successfully removed");
+            console.log("Scene 3 -> Scene 1: Bubble successfully removed from Scene 3");
         } else {
-            console.error("Scene 3: Failed to remove bubble", bubble);
+            console.error("Scene 3 -> Scene 1: Failed to remove bubble from Scene 3", bubble);
         }
 
-        // Ajouter la bulle à la scène 1 en haut
+        // Ajouter la bulle en haut de la scène 1
         const newBubble = scene1.addBubble(bubble.x, 0);
         if (newBubble) {
             newBubble.vx = bubble.vx; // Maintenir la vitesse horizontale
-            newBubble.vy = -Math.abs(bubble.vy); // Rendre la vitesse négative pour descendre
+            newBubble.vy = -Math.abs(bubble.vy); // Appliquer une vitesse négative pour descendre
             console.log("Scene 3 -> Scene 1: Bubble added to Scene 1", newBubble);
         } else {
             console.error("Scene 3 -> Scene 1: Failed to add bubble to Scene 1");
@@ -353,6 +354,8 @@ if (elapsed - cooldown.scene3ToScene1 > COOLDOWN_LIMIT) {
     });
     cooldown.scene3ToScene1 = elapsed;
 }
+
+
 
 
 
