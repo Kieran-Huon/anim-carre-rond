@@ -142,17 +142,22 @@ export default class SceneGravityCubes extends Scene3D {
         // }
         // Mur horizontal en haut (pour la "boucle" du 2)
         // Mur supérieur
+        // Mur supérieur
         if (!!this.wallTop) {
-            this.wallTop.setPosition(0, this.height / 3); // Position au tiers supérieur
-            this.wallTop.setSize(this.width / 2, THICKNESS); // Largeur réduite pour donner l'effet
+            const wallTopWidth = (1.8 / 3) * this.width; // Largeur de 1.8/3 de la scène
+            const wallTopX = -this.width / 2 + wallTopWidth / 2; // Centré mais collé à gauche
+            this.wallTop.setPosition(wallTopX, this.height / 3); // Position verticale 1/3 en haut
+            this.wallTop.setSize(wallTopWidth, THICKNESS); // Appliquer la largeur et l'épaisseur
         }
 
         // Mur inférieur
         if (!!this.wallBottom) {
-            this.wallBottom.setPosition(0, -this.height / 3); // Position au tiers inférieur
-            this.wallBottom.setSize(this.width / 2, THICKNESS); // Largeur réduite pour donner l'effet
+            const wallBottomWidth = (1.8 / 3) * this.width; // Largeur de 1.8/3 de la scène
+            const wallBottomX = this.width / 2 - wallBottomWidth / 2; // Centré mais collé à droite
+            this.wallBottom.setPosition(wallBottomX, -this.height / 3); // Position verticale 1/3 en bas
+            this.wallBottom.setSize(wallBottomWidth, THICKNESS); // Appliquer la largeur et l'épaisseur
         }
-    }
+        }
 
     onDeviceOrientation() {
         let gx_ = this.orientation.gamma / 90;
