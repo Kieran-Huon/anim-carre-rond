@@ -125,28 +125,80 @@ const update = () => {
 /** Attach the update function to the time update event */
 time.on("update", update);
 
+// // Variables globales
+// let baseSpeed = 0; // Vitesse initiale
+
+// // Éléments HTML
+// const addBubbleBtn = document.getElementById('addBubble');
+// const removeBubbleBtn = document.getElementById('removeBubble');
+// const addCubeBtn = document.getElementById('addCube');
+// const removeCubeBtn = document.getElementById('removeCube');
+// const speedControl = document.getElementById('speedControl');
+// const speedDisplay = document.getElementById('speedDisplay');
+
+// // Fonction pour appliquer la vitesse globale
+// function applyBaseSpeed() {
+//     scene1.bubbles.forEach(bubble => {
+//         bubble.vx = baseSpeed * Math.sign(bubble.vx || 1);
+//         bubble.vy = baseSpeed * Math.sign(bubble.vy || 1);
+//     });
+
+//     scene1.cubes.forEach(cube => {
+//         cube.vx = baseSpeed * Math.sign(cube.vx || 1);
+//         cube.vy = baseSpeed * Math.sign(cube.vy || 1);
+//         if (cube.vz !== undefined) cube.vz = baseSpeed * Math.sign(cube.vz || 1);
+//     });
+// }
+
+// // Gestion des événements du panneau
+// addBubbleBtn.addEventListener('click', () => {
+//     scene1.addBubble(Math.random() * scene1.width, Math.random() * scene1.height);
+// });
+
+// removeBubbleBtn.addEventListener('click', () => {
+//     if (scene1.bubbles.length > 0) {
+//         const bubble = scene1.bubbles.pop();
+//         console.log(`Bubble removed at (${bubble.x}, ${bubble.y})`);
+//     }
+// });
+
+// addCubeBtn.addEventListener('click', () => {
+//     scene1.addCube(Math.random() * scene1.width, Math.random() * scene1.height);
+// });
+
+// removeCubeBtn.addEventListener('click', () => {
+//     if (scene1.cubes.length > 0) {
+//         const cube = scene1.cubes.pop();
+//         console.log(`Cube removed at (${cube.x}, ${cube.y})`);
+//     }
+// });
+
+// speedControl.addEventListener('input', () => {
+//     baseSpeed = parseFloat(speedControl.value);
+//     speedDisplay.textContent = baseSpeed;
+//     applyBaseSpeed();
+// });
+
+
 // Variables globales
 let baseSpeed = 0; // Vitesse initiale
 
 // Éléments HTML
 const addBubbleBtn = document.getElementById('addBubble');
 const removeBubbleBtn = document.getElementById('removeBubble');
-const addCubeBtn = document.getElementById('addCube');
-const removeCubeBtn = document.getElementById('removeCube');
 const speedControl = document.getElementById('speedControl');
 const speedDisplay = document.getElementById('speedDisplay');
 
 // Fonction pour appliquer la vitesse globale
 function applyBaseSpeed() {
     scene1.bubbles.forEach(bubble => {
-        bubble.vx = baseSpeed * Math.sign(bubble.vx || 1);
-        bubble.vy = baseSpeed * Math.sign(bubble.vy || 1);
+        bubble.vx = baseSpeed * Math.sign(bubble.vx || 1); // Applique la vitesse à x
+        bubble.vy = baseSpeed * Math.sign(bubble.vy || 1); // Applique la vitesse à y
     });
 
-    scene1.cubes.forEach(cube => {
-        cube.vx = baseSpeed * Math.sign(cube.vx || 1);
-        cube.vy = baseSpeed * Math.sign(cube.vy || 1);
-        if (cube.vz !== undefined) cube.vz = baseSpeed * Math.sign(cube.vz || 1);
+    scene2.cubes.forEach(cube => {
+        cube.body.velocity.x = baseSpeed * Math.sign(cube.body.velocity.x || 1);
+        cube.body.velocity.y = baseSpeed * Math.sign(cube.body.velocity.y || 1);
     });
 }
 
@@ -157,27 +209,17 @@ addBubbleBtn.addEventListener('click', () => {
 
 removeBubbleBtn.addEventListener('click', () => {
     if (scene1.bubbles.length > 0) {
-        const bubble = scene1.bubbles.pop();
+        const bubble = scene1.bubbles.pop(); // Supprime la dernière bulle
         console.log(`Bubble removed at (${bubble.x}, ${bubble.y})`);
     }
 });
 
-addCubeBtn.addEventListener('click', () => {
-    scene1.addCube(Math.random() * scene1.width, Math.random() * scene1.height);
+speedControl.addEventListener('input', (event) => {
+    baseSpeed = parseFloat(event.target.value);
+    speedDisplay.textContent = baseSpeed.toFixed(2);
+    applyBaseSpeed(); // Applique la nouvelle vitesse
 });
 
-removeCubeBtn.addEventListener('click', () => {
-    if (scene1.cubes.length > 0) {
-        const cube = scene1.cubes.pop();
-        console.log(`Cube removed at (${cube.x}, ${cube.y})`);
-    }
-});
-
-speedControl.addEventListener('input', () => {
-    baseSpeed = parseFloat(speedControl.value);
-    speedDisplay.textContent = baseSpeed;
-    applyBaseSpeed();
-});
 
 
 // let baseSpeed = 0; // Vitesse globale initialisée à 0
