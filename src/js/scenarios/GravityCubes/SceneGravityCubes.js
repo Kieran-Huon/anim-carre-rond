@@ -146,7 +146,7 @@ export default class SceneGravityCubes extends Scene3D {
         if (!!this.wallTop) {
             const wallTopWidth = (1.8 / 3) * this.width; // Largeur de 1.8/3 de la scène
             const wallTopX = -this.width / 2 + wallTopWidth / 2; // Centré mais collé à gauche
-            const wallTopY = this.height / 3 - this.height * 0.05; // Légèrement plus bas (5% de la hauteur de la scène)
+            const wallTopY = this.height / 3 - this.height * 0.1; // Légèrement plus bas (5% de la hauteur de la scène)
             this.wallTop.setPosition(wallTopX, wallTopY);
             this.wallTop.setSize(wallTopWidth, THICKNESS);
         }
@@ -155,7 +155,7 @@ export default class SceneGravityCubes extends Scene3D {
         if (!!this.wallBottom) {
             const wallBottomWidth = (1.8 / 3) * this.width; // Largeur de 1.8/3 de la scène
             const wallBottomX = this.width / 2 - wallBottomWidth / 2; // Centré mais collé à droite
-            const wallBottomY = -this.height / 3 + this.height * 0.05; // Légèrement plus haut (5% de la hauteur de la scène)
+            const wallBottomY = -this.height / 3 + this.height * 0.1; // Légèrement plus haut (5% de la hauteur de la scène)
             this.wallBottom.setPosition(wallBottomX, wallBottomY);
             this.wallBottom.setSize(wallBottomWidth, THICKNESS);
         }
