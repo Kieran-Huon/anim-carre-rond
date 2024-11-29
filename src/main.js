@@ -38,6 +38,7 @@ let cooldown = {
 
 scene1.params.radius = 10; 
 scene1.params.threshold = 100; 
+scene1.params.nBubbles = 10;
 scene1.generateBubbles(); 
 
 
