@@ -40,10 +40,14 @@ export default class SceneGravityCubes extends Scene3D {
         this.wallRight = new Wall('blue');
         this.wallLeft = new Wall('green');
         this.wallMiddle = new Wall('purple');
+        this.wallTop = new Wall('red'); 
+        this.wallBottom = new Wall('yellow'); 
 
         this.add(this.wallRight);
         this.add(this.wallLeft);
         this.add(this.wallMiddle);
+        this.add(this.wallTop); 
+        this.add(this.wallBottom);
 
         /** cubes */
         this.cubes = [];
@@ -64,7 +68,9 @@ export default class SceneGravityCubes extends Scene3D {
         this.bodies = [
             this.wallRight.body,
             this.wallLeft.body,
-            this.wallMiddle.body,
+            // this.wallMiddle.body,
+            this.wallTop.body, 
+            this.wallBottom.body,
             ...this.cubes.map(c => c.body)
         ];
         Composite.add(this.engine.world, this.bodies);
@@ -130,9 +136,21 @@ export default class SceneGravityCubes extends Scene3D {
             this.wallLeft.setSize(THICKNESS, this.height);
         }
 
-        if (!!this.wallMiddle) {
-            this.wallMiddle.setPosition(0, 0);
-            this.wallMiddle.setSize(this.width / 2, THICKNESS);
+        // if (!!this.wallMiddle) {
+        //     this.wallMiddle.setPosition(0, 0);
+        //     this.wallMiddle.setSize(this.width / 2, THICKNESS);
+        // }
+        // Mur horizontal en haut (pour la "boucle" du 2)
+        // Mur supérieur
+        if (!!this.wallTop) {
+            this.wallTop.setPosition(0, this.height / 3); // Position au tiers supérieur
+            this.wallTop.setSize(this.width / 2, THICKNESS); // Largeur réduite pour donner l'effet
+        }
+
+        // Mur inférieur
+        if (!!this.wallBottom) {
+            this.wallBottom.setPosition(0, -this.height / 3); // Position au tiers inférieur
+            this.wallBottom.setSize(this.width / 2, THICKNESS); // Largeur réduite pour donner l'effet
         }
     }
 
