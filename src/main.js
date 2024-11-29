@@ -37,7 +37,7 @@ let cooldown = {
 };
 
 const COOLDOWN_LIMIT = 500; // Minimum time (ms) between transitions
-const SPEED_FACTOR = 0.3; // Facteur de réduction de vitesse
+const SPEED_FACTOR = 0.05; // Facteur de réduction de vitesse
 const update = () => {
     const elapsed = time.elapsed;
 
