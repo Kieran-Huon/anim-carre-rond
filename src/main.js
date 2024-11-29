@@ -98,7 +98,8 @@ const update = () => {
         const outScene1_up = scene1.bubbles.filter(b => b.y < 0);
         outScene1_up.forEach(bubble => {
             scene1.removeBubble(bubble);
-            const newBubble = scene3.addBubble(bubble.x, scene3.height);
+            // const newBubble = scene3.addBubble(bubble.x, scene3.height);
+            const newBubble = scene3.addBubble(bubble.x, scene3.height - 50); // Décalage de 50px vers le haut
             if (newBubble) {
                 newBubble.vy = Math.abs(bubble.vy);
             }
@@ -111,7 +112,8 @@ const update = () => {
         const outScene3_down = scene3.bubbles.filter(b => b.y > scene3.height);
         outScene3_down.forEach(bubble => {
             scene3.removeBubble(bubble);
-            const newBubble = scene1.addBubble(bubble.x, 0);
+            // const newBubble = scene1.addBubble(bubble.x, 0);
+            const newBubble = scene1.addBubble(bubble.x, 50); // Décalage de 50px vers le bas
             if (newBubble) {
                 newBubble.vy = -Math.abs(bubble.vy);
             }
