@@ -123,116 +123,93 @@
         font-weight: bold;
     }
 </style> -->
+
 <style>
-    /* Style général pour la page */
     body {
         background-color: black;
-        color: white;
-        margin: 0;
-        font-family: Arial, Helvetica, sans-serif;
         height: 300vh;
     }
 
-    /* Boutons généraux */
     button {
         border: solid white 1px;
         background-color: transparent;
         text-transform: uppercase;
         color: blue;
-        padding: 0.5em 1.5em;
+        padding-inline: 2em;
+        padding-block: 1em;
         border-radius: 2em;
-        font-size: 0.9rem;
-        transition: background-color 0.3s, color 0.3s;
-    }
-
-    button:hover {
-        background-color: blue;
-        color: white;
     }
 
     button:active {
-        background-color: white;
+        background-color: blue;
         color: black;
     }
 
-    /* Texte général */
     p {
-        font-size: 1rem;
+        font-family: Arial, Helvetica, sans-serif;
+        color: white;
         text-align: center;
     }
 
     h1 {
-        font-size: 2rem;
+        font-family: Arial, Helvetica, sans-serif;
+        text-align: center;
         text-transform: uppercase;
         font-style: italic;
-        text-align: center;
-        margin: 1rem 0;
+        color: white;
+        font-size: 1.5rem;
+        margin-block: 1rem 0;
     }
 
-    /* Conteneur principal */
     .container {
         display: flex;
         flex-direction: column;
         align-items: center;
         gap: 1rem;
-        margin: 0 auto;
+        margin-block: 1rem;
         width: min(100% - 1rem, 50rem);
-        padding: 1rem;
+        margin-inline: auto;
     }
 
-    /* Style des scènes (canvas) */
     .scene {
-        border: 2px solid white;
-        border-radius: 10px;
+        border: solid white;
         width: 100%;
         height: 50vh;
-        background-color: rgba(255, 255, 255, 0.1);
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
     }
 
-    /* Panneau de configuration */
     #configPanel {
         display: flex;
         flex-wrap: wrap;
-        gap: 15px;
-        background-color: rgba(255, 255, 255, 0.9);
-        color: black;
-        padding: 15px 20px;
-        border-radius: 10px;
+        gap: 10px;
+        background-color: rgba(255, 255, 255, 0.8);
+        padding: 15px;
+        border-radius: 8px;
         border: 1px solid #ccc;
-        margin-top: 20px;
+        margin-top: 10px;
         justify-content: center;
         align-items: center;
-        width: calc(100% - 20px);
-        max-width: 700px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        width: 100%;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
 
     #configPanel button {
+        padding: 8px 15px;
         border: 1px solid #ccc;
-        background-color: white;
-        padding: 0.5em 1em;
         border-radius: 5px;
-        font-size: 0.9rem;
-        color: black;
+        background-color: white;
         cursor: pointer;
-        transition: background-color 0.3s, color 0.3s;
     }
 
     #configPanel button:hover {
         background-color: #f0f0f0;
     }
 
-    #configPanel button:active {
-        background-color: #ccc;
-    }
-
     #configPanel input[type="range"] {
-        width: 150px;
-        height: 5px;
+        width: 200px;
         margin: 0 10px;
         appearance: none;
-        background: #ddd;
+        height: 5px;
+        background: #ccc;
         border-radius: 5px;
         outline: none;
     }
@@ -252,54 +229,9 @@
     }
 
     #configPanel span {
-        font-size: 1rem;
         font-weight: bold;
-    }
-
-    /* Style du bouton Allow sensors */
-    #btn-access {
-        display: inline-block;
-        margin: 1rem 0;
-        padding: 0.8em 1.2em;
-        border: solid white 1px;
-        border-radius: 2em;
-        font-size: 0.9rem;
-        color: white;
-        background-color: transparent;
-        text-transform: uppercase;
-        cursor: pointer;
-        transition: background-color 0.3s, color 0.3s;
-    }
-
-    #btn-access:hover {
-        background-color: blue;
-        color: white;
-    }
-
-    #btn-access:active {
-        background-color: white;
+        font-size: 1rem;
         color: black;
-    }
-
-    /* Responsive adjustments */
-    @media (max-width: 768px) {
-        h1 {
-            font-size: 1.5rem;
-        }
-
-        #configPanel {
-            flex-direction: column;
-        }
-
-        #configPanel button,
-        #btn-access {
-            padding: 0.5em 1em;
-            font-size: 0.8rem;
-        }
-
-        .scene {
-            height: 40vh;
-        }
     }
 </style>
 
