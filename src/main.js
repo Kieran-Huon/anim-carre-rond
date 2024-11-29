@@ -60,9 +60,13 @@ const update = () => {
         outScene2_down.forEach(cube => {
             scene2.removeCube(cube);
             const newBubble = scene3.addBubble(cube.position.x + scene3.width / 2, 0);
+            // if (newBubble) {
+            //     newBubble.vy = Math.abs(cube.body.velocity.y) * 100;
+            // }
             if (newBubble) {
-                newBubble.vy = Math.abs(cube.body.velocity.y) * 100;
+                newBubble.vy = Math.abs(cube.body.velocity.y * SPEED_FACTOR) * 100;
             }
+            
         });
         cooldown.scene2ToScene3 = elapsed;
     }
@@ -76,6 +80,9 @@ const update = () => {
             if (newCube && newCube.body) {
                 newCube.body.velocity.y = Math.abs(bubble.vy) / 100;
             }
+            // if (newCube && newCube.body) {
+            //     newCube.body.velocity.y = Math.abs(bubble.vy * SPEED_FACTOR) / 100;
+            // }
         });
         cooldown.scene3ToScene2 = elapsed;
     }
@@ -86,9 +93,13 @@ const update = () => {
         outScene2_up.forEach(cube => {
             scene2.removeCube(cube);
             const newBubble = scene1.addBubble(cube.position.x + scene1.width / 2, scene1.height);
+            // if (newBubble) {
+            //     newBubble.vy = -Math.abs(cube.body.velocity.y) * 100;
+            // }
             if (newBubble) {
-                newBubble.vy = -Math.abs(cube.body.velocity.y) * 100;
+                newBubble.vy = -Math.abs(cube.body.velocity.y * SPEED_FACTOR) * 100;
             }
+            
         });
         cooldown.scene2ToScene1 = elapsed;
     }
@@ -100,9 +111,13 @@ const update = () => {
             scene1.removeBubble(bubble);
             // const newBubble = scene3.addBubble(bubble.x, scene3.height);
             const newBubble = scene3.addBubble(bubble.x, scene3.height - 20); // Décalage de 50px vers le haut
+            // if (newBubble) {
+            //     newBubble.vy = -Math.abs(bubble.vy);
+            // }
             if (newBubble) {
-                newBubble.vy = -Math.abs(bubble.vy);
+                newBubble.vy = -Math.abs(bubble.vy * SPEED_FACTOR);
             }
+            
         });
         cooldown.scene1ToScene3 = elapsed;
     }
@@ -114,9 +129,13 @@ const update = () => {
             scene3.removeBubble(bubble);
             // const newBubble = scene1.addBubble(bubble.x, 0);
             const newBubble = scene1.addBubble(bubble.x, 20); // Décalage de 50px vers le bas
+            // if (newBubble) {
+            //     newBubble.vy = Math.abs(bubble.vy);
+            // }
             if (newBubble) {
-                newBubble.vy = Math.abs(bubble.vy);
+                newBubble.vy = Math.abs(bubble.vy * SPEED_FACTOR);
             }
+            
         });
         cooldown.scene3ToScene1 = elapsed;
     }
