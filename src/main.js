@@ -125,6 +125,67 @@ const update = () => {
 /** Attach the update function to the time update event */
 time.on("update", update);
 
+// Récupérer les éléments HTML
+const addBubbleBtn = document.getElementById('addBubble');
+const removeBubbleBtn = document.getElementById('removeBubble');
+const addCubeBtn = document.getElementById('addCube');
+const removeCubeBtn = document.getElementById('removeCube');
+const speedControlInput = document.getElementById('speedControl');
+const increaseSpeedBtn = document.getElementById('increaseSpeed');
+const decreaseSpeedBtn = document.getElementById('decreaseSpeed');
+
+// Ajouter une bulle
+addBubbleBtn.addEventListener('click', () => {
+  scene1.addBubble(Math.random() * scene1.width, Math.random() * scene1.height, Math.random() * 2 - 1, Math.random() * 2 - 1);
+});
+
+// Enlever une bulle aléatoire
+removeBubbleBtn.addEventListener('click', () => {
+  if (scene1.bubbles.length > 0) {
+    const randomIndex = Math.floor(Math.random() * scene1.bubbles.length);
+    const bubbleToRemove = scene1.bubbles[randomIndex];
+    scene1.removeBubble(bubbleToRemove);
+  }
+});
+
+// Ajouter un cube
+addCubeBtn.addEventListener('click', () => {
+  scene1.addCube(Math.random() * scene1.width, Math.random() * scene1.height, Math.random() * 2 - 1, Math.random() * 2 - 1);
+});
+
+// Enlever un cube aléatoire
+removeCubeBtn.addEventListener('click', () => {
+  if (scene1.cubes.length > 0) {
+    const randomIndex = Math.floor(Math.random() * scene1.cubes.length);
+    const cubeToRemove = scene1.cubes[randomIndex];
+    scene1.removeCube(cubeToRemove);
+  }
+});
+
+// Modifier la vitesse de tous les objets
+function updateSpeed(delta) {
+  scene1.bubbles.forEach(bubble => {
+    bubble.vx += delta;
+    bubble.vy += delta;
+  });
+  scene1.cubes.forEach(cube => {
+    cube.vx += delta;
+    cube.vy += delta;
+    cube.vz += delta; // Si les cubes ont une composante Z
+  });
+}
+
+// Augmenter la vitesse
+increaseSpeedBtn.addEventListener('click', () => {
+  const delta = parseFloat(speedControlInput.value) || 0.1;
+  updateSpeed(delta);
+});
+
+// Diminuer la vitesse
+decreaseSpeedBtn.addEventListener('click', () => {
+  const delta = -(parseFloat(speedControlInput.value) || 0.1);
+  updateSpeed(delta);
+});
 
 
 /*
