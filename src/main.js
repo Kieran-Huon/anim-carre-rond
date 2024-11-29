@@ -36,6 +36,11 @@ let cooldown = {
     scene3ToScene1: 0,
 };
 
+scene1.params.radius = 10; 
+scene1.params.threshold = 100; 
+scene1.generateBubbles(); 
+
+
 const COOLDOWN_LIMIT = 500; // Minimum time (ms) between transitions
 const SPEED_FACTOR = 0.08; // Facteur de réduction de vitesse
 const update = () => {

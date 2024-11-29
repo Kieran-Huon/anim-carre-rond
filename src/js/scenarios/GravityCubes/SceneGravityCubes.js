@@ -37,11 +37,12 @@ export default class SceneGravityCubes extends Scene3D {
         this.camera.position.z = 1000;
 
         /** walls */
-        this.wallRight = new Wall('blue');
-        this.wallLeft = new Wall('green');
-        this.wallMiddle = new Wall('purple');
-        this.wallTop = new Wall('red'); 
-        this.wallBottom = new Wall('yellow'); 
+        /** walls */
+        this.wallRight = new Wall('yellow'); 
+        this.wallLeft = new Wall('yellow'); 
+        this.wallTop = new Wall('purple'); 
+        this.wallBottom = new Wall('purple'); 
+        
 
         this.add(this.wallRight);
         this.add(this.wallLeft);
