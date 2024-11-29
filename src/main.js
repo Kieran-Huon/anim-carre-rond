@@ -101,7 +101,7 @@ const update = () => {
             // const newBubble = scene3.addBubble(bubble.x, scene3.height);
             const newBubble = scene3.addBubble(bubble.x, scene3.height - 50); // Décalage de 50px vers le haut
             if (newBubble) {
-                newBubble.vy = Math.abs(bubble.vy);
+                newBubble.vy = -Math.abs(bubble.vy);
             }
         });
         cooldown.scene1ToScene3 = elapsed;
@@ -115,7 +115,7 @@ const update = () => {
             // const newBubble = scene1.addBubble(bubble.x, 0);
             const newBubble = scene1.addBubble(bubble.x, 50); // Décalage de 50px vers le bas
             if (newBubble) {
-                newBubble.vy = -Math.abs(bubble.vy);
+                newBubble.vy = Math.abs(bubble.vy);
             }
         });
         cooldown.scene3ToScene1 = elapsed;
