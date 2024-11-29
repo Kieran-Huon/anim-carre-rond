@@ -9,19 +9,6 @@
 </head>
 
 <body>
-    <div id="configPanel">
-        <button id="addBubble">Ajouter une Bulle</button>
-        <button id="removeBubble">Enlever une Bulle</button>
-        <button id="addCube">Ajouter un Cube</button>
-        <button id="removeCube">Enlever un Cube</button>
-        <br />
-        <label for="speedControl">Vitesse globale : </label>
-        <span id="speedDisplay">0</span>
-        <button id="increaseSpeed">+ Augmenter</button>
-        <button id="decreaseSpeed">- Diminuer</button>
-      </div>
-      
-
     <div class="container">
         <h1>Creative Web</h1>
 
@@ -30,8 +17,16 @@
             <p id="debug"></p>
         </div>
 
-        
-          
+        <!-- Panneau de configuration -->
+        <div id="configPanel">
+            <button id="addBubble">Ajouter une Bulle</button>
+            <button id="removeBubble">Enlever une Bulle</button>
+            <!-- <button id="addCube">Ajouter un Cube</button>
+            <button id="removeCube">Enlever un Cube</button> -->
+            <label for="speedControl">Vitesse globale :</label>
+            <input id="speedControl" type="range" min="-10" max="10" value="0" />
+            <span id="speedDisplay">0</span>
+        </div>
 
         <canvas id="canvas-scene-1" class="scene"></canvas>
         <canvas id="canvas-scene-2" class="scene"></canvas>
@@ -94,38 +89,40 @@
     }
 
     #configPanel {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background-color: #f4f4f4;
-  border-bottom: 1px solid #ccc;
-  padding: 10px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        background-color: rgba(255, 255, 255, 0.8);
+        padding: 15px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        margin-top: 10px;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
 
-#configPanel button {
-  padding: 5px 10px;
-  border: 1px solid #ccc;
-  background-color: #fff;
-  cursor: pointer;
-}
+    #configPanel button {
+        padding: 8px 15px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: white;
+        cursor: pointer;
+    }
 
-#configPanel button:hover {
-  background-color: #ddd;
-}
+    #configPanel button:hover {
+        background-color: #f0f0f0;
+    }
 
-#configPanel input {
-  width: 80px;
-  padding: 5px;
-  text-align: center;
-}
+    #configPanel input[type="range"] {
+        width: 150px;
+        margin: 0 10px;
+    }
 
+    #configPanel span {
+        font-weight: bold;
+    }
 </style>
 
 </html>

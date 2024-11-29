@@ -106,11 +106,7 @@ export default class SceneBouncingBubbles extends Scene2D {
         return bubble;
     }
 
-    addCube(x, y, vx = 0, vy = 0) {
-        const cube = { x, y, vx, vy }; // Exemple de structure de cube
-        this.cubes.push(cube);
-        return cube;
-      }
+   
       
     
 
