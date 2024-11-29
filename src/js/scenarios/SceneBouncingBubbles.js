@@ -49,7 +49,7 @@ export default class SceneBouncingBubbles extends Scene2D {
 
         /** debug */
         this.params = {
-            speed: 1, // Contrôle la vitesse
+            speed: 1, 
             threshold: 50,
             radius: 5,
             nBubbles: 3,
@@ -94,11 +94,7 @@ export default class SceneBouncingBubbles extends Scene2D {
         }
     }
 
-    // addBubble(x, y) {
-    //     const bubble_ = new Bubble(this.context, x, y, this.params.radius);
-    //     this.bubbles.push(bubble_);
-    //     return bubble_;
-    // }
+   
     addBubble(x, y) {
         const bubble = new Bubble(this.context, x, y, this.params.radius);
         this.bubbles.push(bubble);
@@ -110,15 +106,7 @@ export default class SceneBouncingBubbles extends Scene2D {
       
     
 
-    // removeBubble(bubble) {
-    //     // Filtrer la liste des bulles pour exclure celle à supprimer
-    //     this.bubbles = this.bubbles.filter(b => b !== bubble);
-    //     console.log(`Bubble removed at (${bubble.x}, ${bubble.y})`);
-    // }
-    // removeBubble(bubble) {
-    //     this.bubbles = this.bubbles.filter(b => b !== bubble);
-    //     console.log(`Bubble removed at (${bubble.x}, ${bubble.y})`);
-    // }
+   
     removeBubble(bubble) {
         const index = this.bubbles.indexOf(bubble);
         if (index !== -1) {
@@ -192,15 +180,12 @@ export default class SceneBouncingBubbles extends Scene2D {
         gy_ = clamp(gy_, -1, 1);
 
         /** Réduction de la gravité */
-        const gravityReductionFactor = 0.5; // Diminue la gravité à 20% de sa force actuelle
+        const gravityReductionFactor = 0.5; 
 
 
         /** update bubbles */
         if (!!this.bubbles) {
-            // this.bubbles.forEach(b => {
-            //     b.gx = gx_ * this.params.gStrength;
-            //     b.gy = gy_ * this.params.gStrength;
-            // });
+            
             this.bubbles.forEach(b => {
                 b.gx = gx_ * this.params.gStrength * gravityReductionFactor;
                 b.gy = gy_ * this.params.gStrength * gravityReductionFactor;

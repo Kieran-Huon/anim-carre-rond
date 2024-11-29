@@ -37,7 +37,6 @@ export default class SceneGravityCubes extends Scene3D {
         this.camera.position.z = 1000;
 
         /** walls */
-        /** walls */
         this.wallRight = new Wall('yellow'); 
         this.wallLeft = new Wall('yellow'); 
         this.wallTop = new Wall('purple'); 
@@ -141,22 +140,21 @@ export default class SceneGravityCubes extends Scene3D {
         //     this.wallMiddle.setPosition(0, 0);
         //     this.wallMiddle.setSize(this.width / 2, THICKNESS);
         // }
-        // Mur horizontal en haut (pour la "boucle" du 2)
-        // Mur supérieur
+        
         // Mur supérieur
         if (!!this.wallTop) {
-            const wallTopWidth = (1.8 / 3) * this.width; // Largeur de 1.8/3 de la scène
-            const wallTopX = -this.width / 2 + wallTopWidth / 2; // Centré mais collé à gauche
-            const wallTopY = this.height / 3 - this.height * 0.1; // Légèrement plus bas (5% de la hauteur de la scène)
+            const wallTopWidth = (1.8 / 3) * this.width; 
+            const wallTopX = -this.width / 2 + wallTopWidth / 2; 
+            const wallTopY = this.height / 3 - this.height * 0.1; 
             this.wallTop.setPosition(wallTopX, wallTopY);
             this.wallTop.setSize(wallTopWidth, THICKNESS);
         }
     
         // Mur inférieur
         if (!!this.wallBottom) {
-            const wallBottomWidth = (1.8 / 3) * this.width; // Largeur de 1.8/3 de la scène
-            const wallBottomX = this.width / 2 - wallBottomWidth / 2; // Centré mais collé à droite
-            const wallBottomY = -this.height / 3 + this.height * 0.1; // Légèrement plus haut (5% de la hauteur de la scène)
+            const wallBottomWidth = (1.8 / 3) * this.width; 
+            const wallBottomX = this.width / 2 - wallBottomWidth / 2; 
+            const wallBottomY = -this.height / 3 + this.height * 0.1; 
             this.wallBottom.setPosition(wallBottomX, wallBottomY);
             this.wallBottom.setSize(wallBottomWidth, THICKNESS);
         }

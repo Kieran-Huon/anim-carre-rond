@@ -42,8 +42,8 @@ scene1.params.nBubbles = 10;
 scene1.generateBubbles(); 
 
 
-const COOLDOWN_LIMIT = 500; // Minimum time (ms) between transitions
-const SPEED_FACTOR = 0.08; // Facteur de réduction de vitesse
+const COOLDOWN_LIMIT = 500;
+const SPEED_FACTOR = 0.08; 
 const update = () => {
     const elapsed = time.elapsed;
 
@@ -66,9 +66,7 @@ const update = () => {
         outScene2_down.forEach(cube => {
             scene2.removeCube(cube);
             const newBubble = scene3.addBubble(cube.position.x + scene3.width / 2, 0);
-            // if (newBubble) {
-            //     newBubble.vy = Math.abs(cube.body.velocity.y) * 100;
-            // }
+            
             if (newBubble) {
                 newBubble.vy = Math.abs(cube.body.velocity.y * SPEED_FACTOR) * 100;
             }
@@ -86,9 +84,7 @@ const update = () => {
             if (newCube && newCube.body) {
                 newCube.body.velocity.y = Math.abs(bubble.vy) / 100;
             }
-            // if (newCube && newCube.body) {
-            //     newCube.body.velocity.y = Math.abs(bubble.vy * SPEED_FACTOR) / 100;
-            // }
+            
         });
         cooldown.scene3ToScene2 = elapsed;
     }
@@ -99,9 +95,6 @@ const update = () => {
         outScene2_up.forEach(cube => {
             scene2.removeCube(cube);
             const newBubble = scene1.addBubble(cube.position.x + scene1.width / 2, scene1.height);
-            // if (newBubble) {
-            //     newBubble.vy = -Math.abs(cube.body.velocity.y) * 100;
-            // }
             if (newBubble) {
                 newBubble.vy = -Math.abs(cube.body.velocity.y * SPEED_FACTOR) * 100;
             }
@@ -115,11 +108,7 @@ const update = () => {
         const outScene1_up = scene1.bubbles.filter(b => b.y < 0);
         outScene1_up.forEach(bubble => {
             scene1.removeBubble(bubble);
-            // const newBubble = scene3.addBubble(bubble.x, scene3.height);
-            const newBubble = scene3.addBubble(bubble.x, scene3.height - 20); // Décalage de 50px vers le haut
-            // if (newBubble) {
-            //     newBubble.vy = -Math.abs(bubble.vy);
-            // }
+            const newBubble = scene3.addBubble(bubble.x, scene3.height - 20); 
             if (newBubble) {
                 newBubble.vy = -Math.abs(bubble.vy * SPEED_FACTOR);
             }
@@ -133,11 +122,7 @@ const update = () => {
         const outScene3_down = scene3.bubbles.filter(b => b.y > scene3.height);
         outScene3_down.forEach(bubble => {
             scene3.removeBubble(bubble);
-            // const newBubble = scene1.addBubble(bubble.x, 0);
-            const newBubble = scene1.addBubble(bubble.x, 20); // Décalage de 50px vers le bas
-            // if (newBubble) {
-            //     newBubble.vy = Math.abs(bubble.vy);
-            // }
+            const newBubble = scene1.addBubble(bubble.x, 20); 
             if (newBubble) {
                 newBubble.vy = Math.abs(bubble.vy * SPEED_FACTOR);
             }
@@ -150,59 +135,7 @@ const update = () => {
 /** Attach the update function to the time update event */
 time.on("update", update);
 
-// // Variables globales
-// let baseSpeed = 0; // Vitesse initiale
 
-// // Éléments HTML
-// const addBubbleBtn = document.getElementById('addBubble');
-// const removeBubbleBtn = document.getElementById('removeBubble');
-// const addCubeBtn = document.getElementById('addCube');
-// const removeCubeBtn = document.getElementById('removeCube');
-// const speedControl = document.getElementById('speedControl');
-// const speedDisplay = document.getElementById('speedDisplay');
-
-// // Fonction pour appliquer la vitesse globale
-// function applyBaseSpeed() {
-//     scene1.bubbles.forEach(bubble => {
-//         bubble.vx = baseSpeed * Math.sign(bubble.vx || 1);
-//         bubble.vy = baseSpeed * Math.sign(bubble.vy || 1);
-//     });
-
-//     scene1.cubes.forEach(cube => {
-//         cube.vx = baseSpeed * Math.sign(cube.vx || 1);
-//         cube.vy = baseSpeed * Math.sign(cube.vy || 1);
-//         if (cube.vz !== undefined) cube.vz = baseSpeed * Math.sign(cube.vz || 1);
-//     });
-// }
-
-// // Gestion des événements du panneau
-// addBubbleBtn.addEventListener('click', () => {
-//     scene1.addBubble(Math.random() * scene1.width, Math.random() * scene1.height);
-// });
-
-// removeBubbleBtn.addEventListener('click', () => {
-//     if (scene1.bubbles.length > 0) {
-//         const bubble = scene1.bubbles.pop();
-//         console.log(`Bubble removed at (${bubble.x}, ${bubble.y})`);
-//     }
-// });
-
-// addCubeBtn.addEventListener('click', () => {
-//     scene1.addCube(Math.random() * scene1.width, Math.random() * scene1.height);
-// });
-
-// removeCubeBtn.addEventListener('click', () => {
-//     if (scene1.cubes.length > 0) {
-//         const cube = scene1.cubes.pop();
-//         console.log(`Cube removed at (${cube.x}, ${cube.y})`);
-//     }
-// });
-
-// speedControl.addEventListener('input', () => {
-//     baseSpeed = parseFloat(speedControl.value);
-//     speedDisplay.textContent = baseSpeed;
-//     applyBaseSpeed();
-// });
 
 
 // Variables globales
@@ -247,71 +180,6 @@ speedControl.addEventListener('input', (event) => {
 
 
 
-// let baseSpeed = 0; // Vitesse globale initialisée à 0
-// function applyBaseSpeed() {
-//     scene1.bubbles.forEach(bubble => {
-//       bubble.vx = baseSpeed * Math.sign(bubble.vx || 1);
-//       bubble.vy = baseSpeed * Math.sign(bubble.vy || 1);
-//     });
-  
-//     scene1.cubes.forEach(cube => {
-//       cube.vx = baseSpeed * Math.sign(cube.vx || 1);
-//       cube.vy = baseSpeed * Math.sign(cube.vy || 1);
-//       if (cube.vz !== undefined) cube.vz = baseSpeed * Math.sign(cube.vz || 1);
-//     });
-//   }
-
-//   // Sélection des éléments HTML
-// const addBubbleBtn = document.getElementById('addBubble');
-// const removeBubbleBtn = document.getElementById('removeBubble');
-
-// const increaseSpeedBtn = document.getElementById('increaseSpeed');
-// const decreaseSpeedBtn = document.getElementById('decreaseSpeed');
-// const speedDisplay = document.getElementById('speedDisplay');
-
-// // Ajouter une bulle
-// addBubbleBtn.addEventListener('click', () => {
-//   const vx = baseSpeed * (Math.random() > 0.5 ? 1 : -1);
-//   const vy = baseSpeed * (Math.random() > 0.5 ? 1 : -1);
-//   scene1.addBubble(Math.random() * scene1.width, Math.random() * scene1.height, vx, vy);
-// });
-
-// // Enlever une bulle
-// removeBubbleBtn.addEventListener('click', () => {
-//   if (scene1.bubbles.length > 0) {
-//     const bubble = scene1.bubbles.pop(); // Retirer la dernière bulle
-//     console.log(`Bubble removed at (${bubble.x}, ${bubble.y})`);
-//   }
-// });
-
-// // Ajouter un cube
-// addCubeBtn.addEventListener('click', () => {
-//   const vx = baseSpeed * (Math.random() > 0.5 ? 1 : -1);
-//   const vy = baseSpeed * (Math.random() > 0.5 ? 1 : -1);
-//   scene1.addCube(Math.random() * scene1.width, Math.random() * scene1.height, vx, vy);
-// });
-
-// // Enlever un cube
-// removeCubeBtn.addEventListener('click', () => {
-//   if (scene1.cubes.length > 0) {
-//     const cube = scene1.cubes.pop(); // Retirer le dernier cube
-//     console.log(`Cube removed at (${cube.x}, ${cube.y})`);
-//   }
-// });
-
-// // Augmenter la vitesse globale
-// increaseSpeedBtn.addEventListener('click', () => {
-//   baseSpeed += 1;
-//   speedDisplay.textContent = baseSpeed;
-//   applyBaseSpeed();
-// });
-
-// // Diminuer la vitesse globale
-// decreaseSpeedBtn.addEventListener('click', () => {
-//   baseSpeed -= 1;
-//   speedDisplay.textContent = baseSpeed;
-//   applyBaseSpeed();
-// });
 
   
 
