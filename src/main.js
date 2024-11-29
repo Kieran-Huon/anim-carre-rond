@@ -125,67 +125,136 @@ const update = () => {
 /** Attach the update function to the time update event */
 time.on("update", update);
 
-// Récupérer les éléments HTML
+// // Récupérer les éléments HTML
+// const addBubbleBtn = document.getElementById('addBubble');
+// const removeBubbleBtn = document.getElementById('removeBubble');
+// const addCubeBtn = document.getElementById('addCube');
+// const removeCubeBtn = document.getElementById('removeCube');
+// const speedControlInput = document.getElementById('speedControl');
+// const increaseSpeedBtn = document.getElementById('increaseSpeed');
+// const decreaseSpeedBtn = document.getElementById('decreaseSpeed');
+
+// // Ajouter une bulle
+// addBubbleBtn.addEventListener('click', () => {
+//   scene1.addBubble(Math.random() * scene1.width, Math.random() * scene1.height, Math.random() * 2 - 1, Math.random() * 2 - 1);
+// });
+
+// // Enlever une bulle aléatoire
+// removeBubbleBtn.addEventListener('click', () => {
+//   if (scene1.bubbles.length > 0) {
+//     const randomIndex = Math.floor(Math.random() * scene1.bubbles.length);
+//     const bubbleToRemove = scene1.bubbles[randomIndex];
+//     scene1.removeBubble(bubbleToRemove);
+//   }
+// });
+
+// // Ajouter un cube
+// addCubeBtn.addEventListener('click', () => {
+//   scene1.addCube(Math.random() * scene1.width, Math.random() * scene1.height, Math.random() * 2 - 1, Math.random() * 2 - 1);
+// });
+
+// // Enlever un cube aléatoire
+// removeCubeBtn.addEventListener('click', () => {
+//   if (scene1.cubes.length > 0) {
+//     const randomIndex = Math.floor(Math.random() * scene1.cubes.length);
+//     const cubeToRemove = scene1.cubes[randomIndex];
+//     scene1.removeCube(cubeToRemove);
+//   }
+// });
+
+// // Modifier la vitesse de tous les objets
+// function updateSpeed(delta) {
+//   scene1.bubbles.forEach(bubble => {
+//     bubble.vx += delta;
+//     bubble.vy += delta;
+//   });
+//   scene1.cubes.forEach(cube => {
+//     cube.vx += delta;
+//     cube.vy += delta;
+//     cube.vz += delta; // Si les cubes ont une composante Z
+//   });
+// }
+
+// // Augmenter la vitesse
+// increaseSpeedBtn.addEventListener('click', () => {
+//   const delta = parseFloat(speedControlInput.value) || 0.1;
+//   updateSpeed(delta);
+// });
+
+// // Diminuer la vitesse
+// decreaseSpeedBtn.addEventListener('click', () => {
+//   const delta = -(parseFloat(speedControlInput.value) || 0.1);
+//   updateSpeed(delta);
+// });
+
+let baseSpeed = 0; // Vitesse globale initialisée à 0
+function applyBaseSpeed() {
+    scene1.bubbles.forEach(bubble => {
+      bubble.vx = baseSpeed * Math.sign(bubble.vx || 1);
+      bubble.vy = baseSpeed * Math.sign(bubble.vy || 1);
+    });
+  
+    scene1.cubes.forEach(cube => {
+      cube.vx = baseSpeed * Math.sign(cube.vx || 1);
+      cube.vy = baseSpeed * Math.sign(cube.vy || 1);
+      if (cube.vz !== undefined) cube.vz = baseSpeed * Math.sign(cube.vz || 1);
+    });
+  }
+
+  // Sélection des éléments HTML
 const addBubbleBtn = document.getElementById('addBubble');
 const removeBubbleBtn = document.getElementById('removeBubble');
 const addCubeBtn = document.getElementById('addCube');
 const removeCubeBtn = document.getElementById('removeCube');
-const speedControlInput = document.getElementById('speedControl');
 const increaseSpeedBtn = document.getElementById('increaseSpeed');
 const decreaseSpeedBtn = document.getElementById('decreaseSpeed');
+const speedDisplay = document.getElementById('speedDisplay');
 
 // Ajouter une bulle
 addBubbleBtn.addEventListener('click', () => {
-  scene1.addBubble(Math.random() * scene1.width, Math.random() * scene1.height, Math.random() * 2 - 1, Math.random() * 2 - 1);
+  const vx = baseSpeed * (Math.random() > 0.5 ? 1 : -1);
+  const vy = baseSpeed * (Math.random() > 0.5 ? 1 : -1);
+  scene1.addBubble(Math.random() * scene1.width, Math.random() * scene1.height, vx, vy);
 });
 
-// Enlever une bulle aléatoire
+// Enlever une bulle
 removeBubbleBtn.addEventListener('click', () => {
   if (scene1.bubbles.length > 0) {
-    const randomIndex = Math.floor(Math.random() * scene1.bubbles.length);
-    const bubbleToRemove = scene1.bubbles[randomIndex];
-    scene1.removeBubble(bubbleToRemove);
+    const bubble = scene1.bubbles.pop(); // Retirer la dernière bulle
+    console.log(`Bubble removed at (${bubble.x}, ${bubble.y})`);
   }
 });
 
 // Ajouter un cube
 addCubeBtn.addEventListener('click', () => {
-  scene1.addCube(Math.random() * scene1.width, Math.random() * scene1.height, Math.random() * 2 - 1, Math.random() * 2 - 1);
+  const vx = baseSpeed * (Math.random() > 0.5 ? 1 : -1);
+  const vy = baseSpeed * (Math.random() > 0.5 ? 1 : -1);
+  scene1.addCube(Math.random() * scene1.width, Math.random() * scene1.height, vx, vy);
 });
 
-// Enlever un cube aléatoire
+// Enlever un cube
 removeCubeBtn.addEventListener('click', () => {
   if (scene1.cubes.length > 0) {
-    const randomIndex = Math.floor(Math.random() * scene1.cubes.length);
-    const cubeToRemove = scene1.cubes[randomIndex];
-    scene1.removeCube(cubeToRemove);
+    const cube = scene1.cubes.pop(); // Retirer le dernier cube
+    console.log(`Cube removed at (${cube.x}, ${cube.y})`);
   }
 });
 
-// Modifier la vitesse de tous les objets
-function updateSpeed(delta) {
-  scene1.bubbles.forEach(bubble => {
-    bubble.vx += delta;
-    bubble.vy += delta;
-  });
-  scene1.cubes.forEach(cube => {
-    cube.vx += delta;
-    cube.vy += delta;
-    cube.vz += delta; // Si les cubes ont une composante Z
-  });
-}
-
-// Augmenter la vitesse
+// Augmenter la vitesse globale
 increaseSpeedBtn.addEventListener('click', () => {
-  const delta = parseFloat(speedControlInput.value) || 0.1;
-  updateSpeed(delta);
+  baseSpeed += 1;
+  speedDisplay.textContent = baseSpeed;
+  applyBaseSpeed();
 });
 
-// Diminuer la vitesse
+// Diminuer la vitesse globale
 decreaseSpeedBtn.addEventListener('click', () => {
-  const delta = -(parseFloat(speedControlInput.value) || 0.1);
-  updateSpeed(delta);
+  baseSpeed -= 1;
+  speedDisplay.textContent = baseSpeed;
+  applyBaseSpeed();
 });
+
+  
 
 
 /*
