@@ -13,11 +13,11 @@ class Bubble {
 
         /** speed */
         this.vx = randomRange(-200, 200);
-        this.vy = randomRange(-200, 200);
+        this.vy = randomRange(-100, 100);
 
         /** gravity */
-        this.gx = 0;
-        this.gy = 0;
+        this.gx = 0.2;
+        this.gy = 0.2;
     }
 
     draw() {
