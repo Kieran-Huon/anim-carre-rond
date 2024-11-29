@@ -192,7 +192,7 @@ export default class SceneBouncingBubbles extends Scene2D {
         gy_ = clamp(gy_, -1, 1);
 
         /** Réduction de la gravité */
-        const gravityReductionFactor = 0.2; // Diminue la gravité à 20% de sa force actuelle
+        const gravityReductionFactor = 0.5; // Diminue la gravité à 20% de sa force actuelle
 
 
         /** update bubbles */
